@@ -61,6 +61,8 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectCoverflow, Navigation } from "swiper/modules";
 import { ref } from "vue";
 
+import jagma from "@/assets/jagma.png";
+
 //Define Navigation Options
 const navigationOptions = {
   prevEl: ".swiper-prev",
@@ -71,7 +73,7 @@ const projects = ref([
   {
     title: "Jagma Medical Foundation",
     description: "An NGO specialized in creating awareness and rendering medical aids for tuberculosis patients",
-    image: "src/assets/jagma.png",
+    image: jagma,
     tags: ["WORDPRESS", "PHP",],
     liveLink: "javascript:void(0)",
     codeLink: "/",
