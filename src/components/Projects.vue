@@ -61,6 +61,16 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectCoverflow, Navigation } from "swiper/modules";
 import { ref } from "vue";
 
+import jagma from "@/assets/jagma.png";
+import ageunited from "@/assets/ageunited.png";
+import jcstore from "@/assets/jcstore.png";
+import agci from "@/assets/agci.png";
+import emechanic from "@/assets/emechanic.png";
+import shopwithyem2 from "@/assets/shopwithyem2.png";
+import uclone from "@/assets/uclone.png";
+import goodluckafricaui from "@/assets/goodluckafricaui.png";
+
+
 //Define Navigation Options
 const navigationOptions = {
   prevEl: ".swiper-prev",
@@ -71,7 +81,7 @@ const projects = ref([
   {
     title: "Jagma Medical Foundation",
     description: "An NGO specialized in creating awareness and rendering medical aids for tuberculosis patients",
-    image: "src/assets/jagma.png",
+    image: jagma,
     tags: ["WORDPRESS", "PHP",],
     liveLink: "javascript:void(0)",
     codeLink: "/",
@@ -79,7 +89,7 @@ const projects = ref([
   {
     title: "Age United Travel",
     description: "Designed and developed Age United Travel website, a leading and admired travel and tour firm with several years of experiences ",
-    image: "src/assets/ageunited.png",
+    image: ageunited,
     tags: ["HTML", "CSS", "JAVASCRIPT"],
     liveLink: "https://ageunitedtravel.com/",
     codeLink: "/",
@@ -87,7 +97,7 @@ const projects = ref([
   {
     title: "JC STORE",
     description: "Developed a fullstack e-commerce platform",
-    image: "src/assets/jcstore.png",
+    image: jcstore,
     tags: ["VUEJS", "MONGODB", "EXPRESSJS"],
     liveLink: "https://jc-shop.onrender.com/",
     codeLink: "/",
@@ -95,7 +105,7 @@ const projects = ref([
   {
     title: "Age Green Campaign Initiative",
     description: "A non-governmental organization (NGO) pioneering cleaner, greener, eco-friendly and healthier environment ",
-    image: "src/assets/agci.png",
+    image: agci,
     tags: ["HTML", "CSS", "JAVASCRIPT"],
     liveLink: "https://www.agcinitiative.org/",
     codeLink: "/",
@@ -103,7 +113,7 @@ const projects = ref([
   {
     title: "E-MECHANIC",
     description: "A mobile app that connect car owners to the nearest mechanic in an emergency",
-    image: "src/assets/emechanic.png",
+    image: emechanic,
     tags: ["HTML", "CSS", "JAVASCRIPT", "PHP"],
     liveLink: "#",
     codeLink: "/",
@@ -111,7 +121,7 @@ const projects = ref([
   {
     title: "SHOPWITHYEM",
     description: "ShopWithYEM is the global marketplace for unique and creative products, you can pay with YEM",
-    image: "src/assets/shopwithyem2.png",
+    image: shopwithyem2,
     tags: ["WORDPRESS", "PHP", "JAVASCRIPT"],
     liveLink: "https://shopwithyem.com/",
     codeLink: "/",
@@ -119,7 +129,7 @@ const projects = ref([
   {
     title: "Uber Clone",
     description: "",
-    image: "src/assets/uclone.png",
+    image: uclone,
     tags: ["VUEJS", "EXPRESSJS", "PWA"],
     liveLink: "https://jc-uberclone.onrender.com/",
     codeLink: "/",
@@ -127,7 +137,7 @@ const projects = ref([
   {
     title: "Goodluck Africa UI",
     description: "",
-    image: "src/assets/goodluckafricaui.png",
+    image: goodluckafricaui,
     tags: ["FIGMA"],
     liveLink: "javascript:void(0)",
     codeLink: "/",

@@ -108,6 +108,12 @@ const skills = ref([
     textColor: "#ffe600",
   },
   {
+    percentage: 85,
+    title: "CSS3",
+    bgGradient: "to-[#dd584f99] from-[#1f1e1c99]",
+    textColor: "#dd584f",
+  },
+  {
     percentage: 80,
     title: "JAVASCRIPT",
     bgGradient: "to-[#59c37899] from-[#1f1e1c99]",

@@ -44,31 +44,36 @@
 import { ref } from "vue";
 import SectionHeader from "./UI/SectionHeader.vue";
 
+import webapp from "@/assets/webapp.png";
+import app from "@/assets/app.png";
+import marketing from "@/assets/marketing.png";
+import uiux from "@/assets/uiux.png";
+
 const services = ref([
   {
     id: 1,
-    icon: "src/assets/webapp.png",
+    icon: webapp,
     name: "Web Development",
     description:
       "I build fast, responsive, and scalable websites using the latest technologies like Vue.js, Nuxt.js, and Tailwind CSS, ensuring a seamless user experience",
   },
   {
     id: 2,
-    icon: "src/assets/app.png",
+    icon: app,
     name: "App Development",
     description:
       "Creating high-performance web and mobile apps with intuitive UI, smooth functionality, and scalable architecture to bring your ideas to life",
   },
   {
     id: 3,
-    icon: "src/assets/marketing.png",
+    icon: marketing,
     name: "Digital Marketing",
     description:
       "Boosting your brand’s online presence with SEO, social media marketing, and data-driven strategies to drive traffic and conversions",
   },
   {
     id: 4,
-    icon: "src/assets/uiux.png",
+    icon: uiux,
     name: "UI/UX",
     description:
       "Designing user-friendly, visually stunning, and intuitive interfaces that enhance engagement and improve conversions",
