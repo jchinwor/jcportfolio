@@ -139,7 +139,7 @@ const projects = ref([
     description: "",
     image: goodluckafricaui,
     tags: ["FIGMA"],
-    liveLink: "javascript:void(0)",
+    liveLink: "https://www.figma.com/proto/6injL4VGY371Ya2BWt312a/Goodluck-Africa-UI?node-id=7-2&starting-point-node-id=7%3A2",
     codeLink: "/",
   },
 ]);
