@@ -21,7 +21,7 @@
           >
         </h1>
         <h4 class="mb-3 text-center font-bold lg:text-left">
-          Front-End Engineer / UI/UX Designer
+          Software Engineer / UI/UX Designer
         </h4>
         <p class="text-lg text-center lg:text-left max-w-xl mx-auto dark:text-[#86868b] lg:mx-0 ">
          I transform complex challenges into elegant, user-centered solutions. Specializing in building modern web applications with clean code and thoughtful design
