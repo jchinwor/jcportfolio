@@ -93,7 +93,7 @@ const projects = ref([
     description: "A food delivery platform connecting users with local restaurants for convenient meal ordering and delivery services.",
     image: ghanaeats,
     tags: ["Quasar", "Vue", "mongoDB", "ExpressJS", "NodeJS","0Auth"],
-    liveLink: "javascript:void(0)",
+    liveLink: "https://ghanaeat.onrender.com/",
     codeLink: "/",
   },
   {
