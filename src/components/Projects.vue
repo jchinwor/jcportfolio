@@ -65,6 +65,8 @@ import jagma from "@/assets/jagma.png";
 import ageunited from "@/assets/ageunited.png";
 import jcstore from "@/assets/jcstore.png";
 import agci from "@/assets/agci.png";
+import deejak from "@/assets/deejak.png";
+import ghanaeats from "@/assets/ghanaeats.png";
 import emechanic from "@/assets/emechanic.png";
 import shopwithyem2 from "@/assets/shopwithyem2.png";
 import uclone from "@/assets/uclone.png";
@@ -87,11 +89,27 @@ const projects = ref([
     codeLink: "/",
   },
   {
+    title: "Ghana Eats",
+    description: "A food delivery platform connecting users with local restaurants for convenient meal ordering and delivery services.",
+    image: ghanaeats,
+    tags: ["Quasar", "Vue", "mongoDB", "ExpressJS", "NodeJS","0Auth"],
+    liveLink: "javascript:void(0)",
+    codeLink: "/",
+  },
+  {
     title: "Age United Travel",
     description: "Designed and developed Age United Travel website, a leading and admired travel and tour firm with several years of experiences ",
     image: ageunited,
     tags: ["HTML", "CSS", "JAVASCRIPT"],
     liveLink: "https://ageunitedtravel.com/",
+    codeLink: "/",
+  },
+  {
+    title: "DEEJAK LTD",
+    description: "Designed and developed deejak ltd website, Deejak Limited is a proudly Ghanaian agro-processing company committed to transforming locally sourced ingredients into premium organic products ",
+    image: deejak,
+    tags: ["HTML5", "CSS3", "JAVASCRIPT"],
+    liveLink: "https://deejak.com/index",
     codeLink: "/",
   },
   {

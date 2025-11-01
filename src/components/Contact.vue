@@ -170,6 +170,7 @@ const handleSubmit = async () => {
         console.error("Failed to send email:", response);
       }
     } catch (error) {
+      showbtn.value = !showbtn.value
       console.error("Error sending email:", error);
     }
     

@@ -1,70 +1,83 @@
 <template>
-  <header>
-    <div class="flex justify-between items-center pt-8 px-3 xl:px-50 relative z-20">
-      <div v-if="isDarkMode" class="text-3xl font-bold dark:text-white"><img src="@/assets/jclogo.png" class="w-20" alt="jclogo"></div>
-      <div v-else class="text-3xl font-bold dark:text-white"><img src="@/assets/jclogoblack.png" class="w-20" alt="jclogo"></div>
-
-      <!--- Mobile Toggle Button -->
-      <div class="md:hidden z-30">
-        <button
-          class="block focus:outline-none"
-          @click="isMenuOpen = !isMenuOpen"
-        >
-          <span
-            v-if="isMenuOpen"
-            class="text-4xl md:text-primary text-white dark:text-white cursor-pointer"
-          >
-            <Icon icon="zondicons:close-solid" />
-          </span>
-          <span
-            v-else
-            class="text-4xl md:text-primary text-primary dark:text-white cursor-pointer"
-          >
-            <Icon icon="hugeicons:menu-02" />
-          </span>
-        </button>
-      </div>
-
-      <!---Navbar Link --->
-      <nav
-        :class="[
-          `fixed inset-0 z-20 flex flex-col items-center justify-center bg-gray-600 md:relative md:bg-transparent md:flex md:justify-between md:flex-row ${
-            isMenuOpen ? 'block' : 'hidden'
-          }`,
-        ]"
-      >
-        <ul
-          class="flex flex-col items-center space-y-5 md:flex-row md:space-x-5 md:space-y-0"
-        >
-          <li v-for="item in Menu" :key="item.name">
-            <a
-              @click="scrollToSection(item.href)"
-              :href="item.href"
-              class="block transition ease-linear md:text-lg lg:text-xl font-bold text-white md:text-primary hover:text-secondary dark:text-white dark:hover:text-secondary"
-            >
-              {{ item.name }}
-            </a>
-          </li>
-        </ul>
-        <button
-          @click="toggleDarkMode"
-          class="text-white md:ml-20 z-10 mt-3 md:mt-0 flex flex-col items-center md:block"
-        >
-          <!---Show dark mode trigger moon/sun icon-->
-          <Icon
-            v-if="!isDarkMode"
-            icon="tabler:moon-filled"
-            class="text-3xl text-primary cursor-pointer"
-          />
-          <Icon
-            v-else
-            icon="solar:sun-outline"
-            class="text-3xl text-secondary cursor-pointer"
-          />
-        </button>
-      </nav>
+ <header
+  class="sticky top-0 z-30 "
+>
+  <div
+    class="flex justify-between items-center pt-6 pb-4 px-3 xl:px-20 relative"
+  >
+    <!-- Logo -->
+    <div v-if="isDarkMode" class="text-3xl font-bold dark:text-white">
+      <img src="@/assets/jclogo.png" class="w-20" alt="jclogo" />
     </div>
-  </header>
+    <div v-else class="text-3xl font-bold dark:text-white">
+      <img src="@/assets/jclogoblack.png" class="w-20" alt="jclogo" />
+    </div>
+
+    <!-- Mobile Toggle -->
+    <div class="md:hidden z-30">
+      <button
+        class="block focus:outline-none"
+        @click="isMenuOpen = !isMenuOpen"
+      >
+        <span
+          v-if="isMenuOpen"
+          class="text-4xl text-white dark:text-white cursor-pointer"
+        >
+          <Icon icon="zondicons:close-solid" />
+        </span>
+        <span
+          v-else
+          class="text-4xl text-primary dark:text-white cursor-pointer"
+        >
+          <Icon icon="hugeicons:menu-02" />
+        </span>
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav
+      :class="[
+        'transition-all duration-500 ease-in-out md:relative md:z-20 md:flex md:items-center md:justify-end md:flex-row',
+        isMenuOpen
+          ? 'fixed inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-md opacity-100 visible'
+          : 'hidden md:opacity-100 md:visible',
+      ]"
+      class="md:bg-[rgba(255,255,255,0.08)] md:backdrop-blur-xl md:shadow-[0_0_15px_rgba(0,255,255,0.4)] md:border md:border-[rgba(255,255,255,0.2)] md:rounded-2xl md:px-10 md:py-3"
+    >
+      <ul
+        class="flex flex-col items-center space-y-5 md:flex-row md:space-x-5 md:space-y-0"
+      >
+        <li v-for="item in Menu" :key="item.name">
+          <a
+            @click="scrollToSection(item.href)"
+            :href="item.href"
+            class="block transition ease-linear md:text-lg lg:text-xl font-bold text-white md:text-primary hover:text-secondary dark:text-white dark:hover:text-secondary"
+          >
+            {{ item.name }}
+          </a>
+        </li>
+      </ul>
+
+      <!-- Dark Mode Toggle -->
+      <button
+        @click="toggleDarkMode"
+        class="text-white md:ml-8 z-10 mt-3 md:mt-0 flex flex-col items-center md:block"
+      >
+        <Icon
+          v-if="!isDarkMode"
+          icon="tabler:moon-filled"
+          class="text-3xl text-primary cursor-pointer"
+        />
+        <Icon
+          v-else
+          icon="solar:sun-outline"
+          class="text-3xl text-secondary cursor-pointer"
+        />
+      </button>
+    </nav>
+  </div>
+</header>
+
 </template>
 
 <script setup>
