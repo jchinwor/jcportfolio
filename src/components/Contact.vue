@@ -42,7 +42,7 @@
             <a href="https://www.linkedin.com/in/jenkins-chinwor/" class="text-gray-600 hover:text-blue-500">
               <Icon icon="fa-brands:linkedin" style="font-size: 2rem" />
             </a>
-            <a href="" class="text-gray-600 hover:text-gray-800">
+            <a href="https://github.com/jchinwor" class="text-gray-600 hover:text-gray-800">
               <Icon icon="fa-brands:github" style="font-size: 2rem" />
             </a>
           </div>
