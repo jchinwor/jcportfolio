@@ -1,150 +1,83 @@
 <template>
   <section class="mt-32" id="skills">
-    <SectionHeader title="My Skills" />
-    <div class="mt-20 flex justify-center">
-      <ul class="flex flex-wrap justify-center items-center">
-        <li
-          ref="skillRefs"
-          v-for="(skill, index) in skills"
+    <SectionHeader title="Technologies & Tools" />
+
+    <div class="mt-20">
+      <Swiper
+        :modules="[Autoplay]"
+        :loop="true"
+        :speed="6000"
+        :autoplay="{
+          delay: 0,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        }"
+        :breakpoints="breakpoints"
+        class="max-w-6xl mx-auto px-4"
+      >
+        <SwiperSlide
+          v-for="(tool, index) in tools"
           :key="index"
-          :class="`mx-[15px] rounded-[12px] mb-7 bg-gradient-to-t ${skill.bgGradient}`"
         >
           <div
-            class="rounded-[12px] bg-primary mt-[3px] p-12 md:p-5 text-center"
+            class="flex flex-col items-center justify-center
+                    hover:opacity-100
+                   transition-all duration-300"
           >
-            <h3
-              class="font-bold text-[35px] text-white flex items-center justify-center"
-            >
-              <Countup
-                v-if="visibleItems[index]"
-                :endVal="skill.percentage"
-                :startVal="0"
-                :duration="2"
-              />
-              %
-            </h3>
-            <p
-              class="font-normal text-[16px]"
-              :style="{ color: skill.textColor }"
-            >
-              {{ skill.title }}
-            </p>
+            <img
+              :src="tool.logo"
+              :alt="tool.name"
+              class="h-14 w-auto object-contain
+                      hover:grayscale-0"
+            />
+            <span class="mt-3 text-xs tracking-wide text-gray-400">
+              {{ tool.name }}
+            </span>
           </div>
-        </li>
-      </ul>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </section>
 </template>
 
+
 <script setup>
-import { ref, onMounted } from "vue";
 import SectionHeader from "./UI/SectionHeader.vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
 
-const skills = ref([
-  {
-    percentage: 80,
-    title: "Figma",
-    bgGradient: "to-[#acac39] from-[#1f1e1c99]",
-    textColor: "#FFE600",
-  },
-  {
-    percentage: 83,
-    title: "TailwindCSS",
-    bgGradient: "to-[#acac39] from-[#1f1e1c99]",
-    textColor: "#FFE600",
-  },
-  {
-    percentage: 75,
-    title: "NUXT JS",
-    bgGradient: "to-[#59c33789] from-[#1f1e1c99]",
-    textColor: "#59c378",
-  },
-  {
-    percentage: 88,
-    title: "Photoshop",
-    bgGradient: "to-[#dd584f99] from-[#1f1e1c99]",
-    textColor: "#dd584f",
-  },
-  {
-    percentage: 85,
-    title: "VUE JS",
-    bgGradient: "to-[#ff9a0099] from-[#1f1e1c99]",
-    textColor: "#ff9a00",
-  },
-  {
-    percentage: 80,
-    title: "Illustrator",
-    bgGradient: "to-[#ff9a0099] from-[#1f1e1c99]",
-    textColor: "#ff9a00",
-  },
-  {
-    percentage: 90,
-    title: "Wordpress",
-    bgGradient: "to-[#00a9ff99] from-[#1f1e1c99]",
-    textColor: "#00a9ff",
-  },
-  {
-    percentage: 84,
-    title: "MongoDB",
-    bgGradient: "to-[#9e00ff99] from-[#1f1e1c99]",
-    textColor: "#ad00ff",
-  },
-  {
-    percentage: 85,
-    title: "MYSQL",
-    bgGradient: "to-[#ff9a0099] from-[#1f1e1c99]",
-    textColor: "#ff9a00",
-  },
-  {
-    percentage: 75,
-    title: "Firebase",
-    bgGradient: "to-[#dd584f99] from-[#1f1e1c99]",
-    textColor: "#dd584f",
-  },
-  {
-    percentage: 98,
-    title: "HTML5",
-    bgGradient: "to-[#acac39] from-[#1f1e1c99]",
-    textColor: "#ffe600",
-  },
-  {
-    percentage: 85,
-    title: "CSS3",
-    bgGradient: "to-[#dd584f99] from-[#1f1e1c99]",
-    textColor: "#dd584f",
-  },
-  {
-    percentage: 80,
-    title: "JAVASCRIPT",
-    bgGradient: "to-[#59c37899] from-[#1f1e1c99]",
-    textColor: "#59c378",
-  },
-]);
+const tools = [
+  { name: "Vue.js", logo: "/logos/vuejs.png" },
+  { name: "React.js", logo: "/logos/reactjs.png" },
+  { name: "Nuxt.js", logo: "/logos/nuxtjs.png" },
+  { name: "Quasar", logo: "/logos/Quasar.png" },
+  { name: "Tailwind CSS", logo: "/logos/tailwindcss.png" },
+  { name: "JavaScript", logo: "/logos/javascript.png" },
+  { name: "Figma", logo: "/logos/figma.png" },
+  { name: "Firebase", logo: "/logos/firebase.png" },
+  { name: "MongoDB", logo: "/logos/mongodb.png" },
+  { name: "Postgresql", logo: "/logos/postgresql.png" },
+  { name: "Mysql", logo: "/logos/mysql.png" },
+  { name: "WordPress", logo: "/logos/wordpress.png" },
+  { name: "Git", logo: "/logos/git.png" },
+  { name: "Photoshop", logo: "/logos/photoshop.png" },
+  { name: "Illustrator", logo: "/logos/illustrator.png" }
+];
 
-//Track visibility of items
-const visibleItems = ref(skills.value.map(() => false));
-const skillRefs = ref([]);
-
-//IntersectionObserver Logic
-
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const index = skillRefs.value.indexOf(entry.target);
-          if (index !== -1) {
-            visibleItems.value[index] = true; //Mark item as visible
-          }
-        }
-      });
-    },
-    { threshold: 0.3 } //Trigger When 30% of element visible
-  );
-
-  //Observe all skills element
-  skillRefs.value.forEach((el) => observer.observe(el));
-});
+const breakpoints = {
+  320: { slidesPerView: 2, spaceBetween: 24 },
+  640: { slidesPerView: 3, spaceBetween: 32 },
+  1024: { slidesPerView: 5, spaceBetween: 40 },
+  1280: { slidesPerView: 6, spaceBetween: 48 }
+};
 </script>
 
-<style></style>
+
+<style scoped>
+/* Smooth infinite auto-scroll */
+.swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+</style>
+
