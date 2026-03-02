@@ -31,7 +31,7 @@ import LoadingSpinner from "./components/LoadingSpinner.vue";
 </script>
 
 <template>
-  <div class="bg-[#D4EBF8] dark:bg-[#121212] min-h-screen">
+  <div class="bg-white dark:bg-[#121212] min-h-screen">
     <Suspense>
       <template #default>
         <div>

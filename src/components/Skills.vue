@@ -30,7 +30,7 @@
               class="h-14 w-auto object-contain
                       hover:grayscale-0"
             />
-            <span class="mt-3 text-xs tracking-wide text-gray-400">
+            <span class="mt-3 text-xs tracking-wide text-gray-600 dark:text-gray-400">
               {{ tool.name }}
             </span>
           </div>
@@ -59,6 +59,8 @@ const tools = [
   { name: "MongoDB", logo: "/logos/mongodb.png" },
   { name: "Postgresql", logo: "/logos/postgresql.png" },
   { name: "Mysql", logo: "/logos/mysql.png" },
+  { name: "React Native", logo: "https://cdn.simpleicons.org/reactnative/61DAFB" },
+  { name: "Laravel", logo: "https://cdn.simpleicons.org/laravel/FF2D20" },
   { name: "WordPress", logo: "/logos/wordpress.png" },
   { name: "Git", logo: "/logos/git.png" },
   { name: "Photoshop", logo: "/logos/photoshop.png" },

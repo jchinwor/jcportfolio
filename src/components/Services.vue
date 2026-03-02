@@ -1,84 +1,86 @@
 <template>
-  <section id="services" class="relative text-white mt-32">
+  <section id="services" class="relative mt-32 px-4 xl:px-16">
     <SectionHeader title="Services" />
-    <div
-      class="mt-20 py-8 xl:px-16 px-4 sm:py-16 grid grid-cols-1 gap-4 pt-10 sm:grid-cols-2 md:gap-10 md:pt-12 md:grid-cols-2 lg:grid-cols-4 items-stretch"
-    >
-      <article
-        class="px-[12px] mb-[24px] flex h-full"
-        v-for="data in services"
-        :key="data.id"
+
+    <p class="text-center text-gray-500 dark:text-gray-400 mt-4 max-w-xl mx-auto text-base">
+      End-to-end solutions — from concept and design to deployment and growth.
+    </p>
+
+    <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        v-for="service in services"
+        :key="service.id"
+        class="group relative rounded-2xl p-7 border transition-all duration-300 cursor-default
+               bg-white dark:bg-[#161616]
+               border-gray-100 dark:border-gray-800
+               hover:border-secondary/40 dark:hover:border-secondary/40
+               hover:-translate-y-1.5 hover:shadow-xl hover:shadow-secondary/5"
+        data-aos="fade-up"
+        :data-aos-delay="service.id * 80"
       >
-        <div
-          class="mt-[30px] relative flex flex-col justify-center text-center rounded-[30px] border border-[#E2E8F0] dark:bg-[#ffffff29] bg-primary"
-          data-aos="fade-up"
-          :data-aos-delay="data.id * 100"
-        >
-          <div class="mt-[30px] flex justify-center relative">
-            <div class="mt-[-7px] p-[20px] relative bg-primary rounded-[50%]">
-              <span
-                class="h-[60px] w-[60px] m-auto border-[1px] border-solid border-secondary absolute top-[8px] left-[8px] rounded-[50%] inline-block z-[5]"
-              ></span>
-              <img
-                :src="data.icon"
-                :alt="data.name"
-                class="h-[35px] w-[35px] relative z-[1]"
-              />
-            </div>
-          </div>
-          <div class="p-[30px]">
-            <h3 class="uppercase font-semibold text-secondary text-base">
-              {{ data.name }}
-            </h3>
-            <p class="text-[14px] leading-[20px] text-white tracking-[0.03rem]">
-              {{ data.description }}
-            </p>
-          </div>
+        <!-- Background number watermark -->
+        <span class="absolute top-4 right-5 text-6xl font-black text-gray-100 dark:text-gray-800 select-none leading-none transition-all duration-300 group-hover:text-secondary/10">
+          {{ String(service.id).padStart(2, '0') }}
+        </span>
+
+        <!-- Icon badge -->
+        <div class="relative z-10 mb-6 w-14 h-14 rounded-2xl bg-secondary/10 flex items-center justify-center transition-all duration-300 group-hover:bg-secondary/20 group-hover:scale-110">
+          <Icon :icon="service.icon" class="text-2xl text-secondary" />
         </div>
-      </article>
+
+        <!-- Title -->
+        <h3 class="relative z-10 text-base font-bold text-gray-900 dark:text-white mb-3 group-hover:text-secondary transition-colors duration-200">
+          {{ service.name }}
+        </h3>
+
+        <!-- Description -->
+        <p class="relative z-10 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+          {{ service.description }}
+        </p>
+
+        <!-- Hover reveal -->
+        <div class="relative z-10 mt-6 flex items-center gap-1.5 text-secondary text-xs font-bold tracking-wide uppercase opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-1 group-hover:translate-y-0">
+          What I offer
+          <Icon icon="lucide:arrow-right" class="text-sm" />
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import SectionHeader from "./UI/SectionHeader.vue";
 
-import webapp from "@/assets/webapp.png";
-import app from "@/assets/app.png";
-import marketing from "@/assets/marketing.png";
-import uiux from "@/assets/uiux.png";
-
-const services = ref([
+const services = [
   {
     id: 1,
-    icon: webapp,
+    icon: "lucide:globe-2",
     name: "Web Development",
     description:
-      "I build fast, responsive, and scalable websites using the latest technologies like Vue.js, Nuxt.js, and Tailwind CSS, ensuring a seamless user experience",
+      "Fast, responsive, and scalable websites built with modern tecnologies — crafted for performance and seamless user experiences.",
   },
   {
     id: 2,
-    icon: app,
+    icon: "lucide:smartphone",
     name: "App Development",
     description:
-      "Creating high-performance web and mobile apps with intuitive UI, smooth functionality, and scalable architecture to bring your ideas to life",
+      "High-performance web and mobile apps with intuitive UI, smooth functionality, and scalable architecture that bring ideas to life.",
   },
   {
     id: 3,
-    icon: marketing,
+    icon: "lucide:trending-up",
     name: "Digital Marketing",
     description:
-      "Boosting your brand’s online presence with SEO, social media marketing, and data-driven strategies to drive traffic and conversions",
+      "Amplify your brand's reach with SEO, social media strategy, and data-driven campaigns designed to drive traffic and conversions.",
   },
   {
     id: 4,
-    icon: uiux,
-    name: "UI/UX",
+    icon: "lucide:pen-tool",
+    name: "UI/UX Design",
     description:
-      "Designing user-friendly, visually stunning, and intuitive interfaces that enhance engagement and improve conversions",
+      "User-friendly, visually compelling interfaces designed in Figma — balancing aesthetics with usability to maximize engagement.",
   },
-]);
+];
 </script>
 
 <style></style>

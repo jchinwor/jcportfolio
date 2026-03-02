@@ -1,19 +1,18 @@
 <template>
-  <section class="mt-20 lg:mt-0 w-full relative text-white flex justify-center">
-    <header
-      class="absolute w-1/2 aspect-[16/5] -skew-x-12 rounded-full bg-gradient-to-r from-[#00c6cc] via-[#785ae4] to-secondary opacity-30 dark:opacity-20 blur-[100px] left-10 top-0 hidden md:block"
-    ></header>
+  <section class="mt-20 lg:mt-0 w-full relative flex justify-center">
     <ul
       ref="statsSection"
-      class="relative z-1 p-6 mx-auto w-11/12 lg:mx-0 rounded-3xl border dark:bg-[#ffffff29] bg-primary shadow-lg md:divide-x grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 lg:gap-12 border-[#E2E8F0] divide-secondary"
+      class="relative z-1 p-6 mx-auto w-11/12 lg:mx-0 rounded-3xl border
+             dark:bg-[#ffffff14] bg-gray-900
+             shadow-lg grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 lg:gap-12
+             border-gray-200 dark:border-gray-700
+             md:divide-x divide-secondary"
     >
       <li v-for="data in numbers" :key="data.id" class="text-center">
-        <h2
-          class="font-semibold flex justify-center text-xl sm:text-2xl md:text-4xl w-full"
-        >
-          + <Countup v-if="hasIntersected" :endVal="data.number" />
+        <h2 class="font-semibold flex justify-center text-xl sm:text-2xl md:text-4xl w-full text-white">
+          +<Countup v-if="hasIntersected" :endVal="data.number" />
         </h2>
-        <p class="mt-2">{{ data.title }}</p>
+        <p class="mt-2 text-gray-300 text-sm">{{ data.title }}</p>
       </li>
     </ul>
   </section>
@@ -23,10 +22,10 @@
 import { ref, onMounted } from "vue";
 
 const numbers = ref([
-  { id: 1, number: 12, title: "Created Projects" },
-  { id: 2, number: 30, title: "Projects" },
-  { id: 3, number: 20, title: "Happy clients" },
-  { id: 4, number: 4, title: "Years" },
+  { id: 1, number: 4, title: "Years Experience" },
+  { id: 2, number: 30, title: "Projects Completed" },
+  { id: 3, number: 20, title: "Happy Clients" },
+  { id: 4, number: 15, title: "Technologies" },
 ]);
 
 const statsSection = ref(null);

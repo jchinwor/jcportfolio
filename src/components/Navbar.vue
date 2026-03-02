@@ -1,105 +1,166 @@
 <template>
- <header
-  class="sticky top-0 z-30 "
->
-  <div
-    class="flex justify-between items-center pt-6 pb-4 px-3 xl:px-20 relative"
+  <header
+    class="sticky top-0 z-30 transition-all duration-300"
+    :class="isScrolled ? 'bg-white/95 dark:bg-[#121212]/95 backdrop-blur-md shadow-sm border-b border-gray-100 dark:border-gray-800' : ''"
   >
-    <!-- Logo -->
-    <div v-if="isDarkMode" class="text-3xl font-bold dark:text-white">
-      <img src="@/assets/jclogo.png" class="w-20" alt="jclogo" />
-    </div>
-    <div v-else class="text-3xl font-bold dark:text-white">
-      <img src="@/assets/jclogoblack.png" class="w-20" alt="jclogo" />
-    </div>
+    <div class="flex justify-between items-center py-4 px-4 xl:px-20">
+      <!-- Logo -->
+      <a href="#" aria-label="Go to top">
+        <img v-if="isDarkMode" src="@/assets/jclogo.png" class="w-14" alt="Jenkins Chinwor" />
+        <img v-else src="@/assets/jclogoblack.png" class="w-14" alt="Jenkins Chinwor" />
+      </a>
 
-    <!-- Mobile Toggle -->
-    <div class="md:hidden z-30">
-      <button
-        class="block focus:outline-none"
-        @click="isMenuOpen = !isMenuOpen"
-      >
-        <span
-          v-if="isMenuOpen"
-          class="text-4xl text-white dark:text-white cursor-pointer"
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-2 bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl px-6 py-2.5 shadow-sm">
+        <ul class="flex items-center gap-6">
+          <li v-for="item in Menu" :key="item.name">
+            <a
+              @click.prevent="scrollToSection(item.href)"
+              :href="item.href"
+              class="relative text-sm lg:text-base font-semibold text-gray-700 dark:text-white hover:text-secondary dark:hover:text-secondary transition-colors duration-200 group"
+              :class="activeSection === item.href.replace('#', '') ? '!text-secondary' : ''"
+            >
+              {{ item.name }}
+              <span
+                class="absolute -bottom-1 left-0 h-0.5 bg-secondary rounded-full transition-all duration-300 group-hover:w-full"
+                :class="activeSection === item.href.replace('#', '') ? 'w-full' : 'w-0'"
+              ></span>
+            </a>
+          </li>
+        </ul>
+        <button
+          @click="toggleDarkMode"
+          class="ml-6 flex items-center"
+          :aria-label="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
         >
-          <Icon icon="zondicons:close-solid" />
-        </span>
-        <span
-          v-else
-          class="text-4xl text-primary dark:text-white cursor-pointer"
-        >
-          <Icon icon="hugeicons:menu-02" />
-        </span>
-      </button>
-    </div>
+          <Icon v-if="!isDarkMode" icon="tabler:moon-filled" class="text-2xl text-gray-600 hover:text-secondary transition-colors duration-200 cursor-pointer" />
+          <Icon v-else icon="solar:sun-outline" class="text-2xl text-secondary hover:opacity-80 transition-opacity duration-200 cursor-pointer" />
+        </button>
+      </nav>
 
-    <!-- Navigation -->
-    <nav
-      :class="[
-        'transition-all duration-500 ease-in-out md:relative md:z-20 md:flex md:items-center md:justify-end md:flex-row',
-        isMenuOpen
-          ? 'fixed inset-0 z-20 flex flex-col items-center justify-center bg-black/40 backdrop-blur-md opacity-100 visible'
-          : 'hidden md:opacity-100 md:visible',
-      ]"
-      class="md:bg-[rgba(255,255,255,0.08)] md:backdrop-blur-xl md:shadow-[0_0_15px_rgba(0,255,255,0.4)] md:border md:border-[rgba(255,255,255,0.2)] md:rounded-2xl md:px-10 md:py-3"
-    >
-      <ul
-        class="flex flex-col items-center space-y-5 md:flex-row md:space-x-5 md:space-y-0"
+      <!-- Mobile: dark mode + hamburger -->
+      <div class="md:hidden flex items-center gap-3">
+        <button @click="toggleDarkMode" :aria-label="isDarkMode ? 'Light mode' : 'Dark mode'">
+          <Icon v-if="!isDarkMode" icon="tabler:moon-filled" class="text-2xl text-gray-600" />
+          <Icon v-else icon="solar:sun-outline" class="text-2xl text-secondary" />
+        </button>
+        <button @click="openMenu" aria-label="Open menu" class="text-gray-700 dark:text-white">
+          <Icon icon="hugeicons:menu-02" class="text-3xl" />
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile: Backdrop -->
+  <Teleport to="body">
+    <transition name="fade">
+      <div
+        v-if="isMenuOpen"
+        class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+        @click="closeMenu"
+      ></div>
+    </transition>
+
+    <!-- Mobile: Slide-in Drawer -->
+    <transition name="slide">
+      <aside
+        v-if="isMenuOpen"
+        class="fixed top-0 right-0 h-full w-72 z-50 bg-white dark:bg-[#1a1a1a] shadow-2xl flex flex-col md:hidden"
       >
-        <li v-for="item in Menu" :key="item.name">
-          <a
-            @click="scrollToSection(item.href)"
-            :href="item.href"
-            class="block transition ease-linear md:text-lg lg:text-xl font-bold text-white md:text-primary hover:text-secondary dark:text-white dark:hover:text-secondary"
+        <!-- Drawer header -->
+        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
+          <img v-if="isDarkMode" src="@/assets/jclogo.png" class="w-12" alt="Jenkins Chinwor" />
+          <img v-else src="@/assets/jclogoblack.png" class="w-12" alt="Jenkins Chinwor" />
+          <button
+            @click="closeMenu"
+            aria-label="Close menu"
+            class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
           >
+            <Icon icon="zondicons:close-solid" class="text-xl" />
+          </button>
+        </div>
+
+        <!-- Drawer nav items -->
+        <nav class="flex flex-col px-4 py-6 gap-1 flex-1 overflow-y-auto">
+          <a
+            v-for="item in Menu"
+            :key="item.name"
+            @click.prevent="scrollToSection(item.href)"
+            :href="item.href"
+            class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-all duration-200"
+            :class="
+              activeSection === item.href.replace('#', '')
+                ? 'bg-secondary/10 text-secondary'
+                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-secondary dark:hover:text-secondary'
+            "
+          >
+            <Icon :icon="item.icon" class="text-lg opacity-70" />
             {{ item.name }}
           </a>
-        </li>
-      </ul>
+        </nav>
 
-      <!-- Dark Mode Toggle -->
-      <button
-        @click="toggleDarkMode"
-        class="text-white md:ml-8 z-10 mt-3 md:mt-0 flex flex-col items-center md:block"
-      >
-        <Icon
-          v-if="!isDarkMode"
-          icon="tabler:moon-filled"
-          class="text-3xl text-primary cursor-pointer"
-        />
-        <Icon
-          v-else
-          icon="solar:sun-outline"
-          class="text-3xl text-secondary cursor-pointer"
-        />
-      </button>
-    </nav>
-  </div>
-</header>
-
+        <!-- Drawer footer -->
+        <div class="px-6 py-4 border-t border-gray-100 dark:border-gray-800">
+          <p class="text-xs text-gray-400 text-center">Jenkins Chinwor &copy; {{ new Date().getFullYear() }}</p>
+        </div>
+      </aside>
+    </transition>
+  </Teleport>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 const isMenuOpen = ref(false);
+const isScrolled = ref(false);
+const activeSection = ref("");
+
 const Menu = ref([
-  { name: "Services", href: "#services" },
-  { name: "Tools", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
+  { name: "Services", href: "#services", icon: "lucide:layout-grid" },
+  { name: "Tools", href: "#skills", icon: "lucide:wrench" },
+  { name: "Projects", href: "#projects", icon: "lucide:folder-open" },
+  { name: "Contact", href: "#contact", icon: "lucide:mail" },
 ]);
 
-const scrollToSection = (href) => {
+const openMenu = () => {
+  isMenuOpen.value = true;
+  document.body.style.overflow = "hidden";
+};
+
+const closeMenu = () => {
   isMenuOpen.value = false;
+  document.body.style.overflow = "";
+};
+
+const scrollToSection = (href) => {
+  closeMenu();
   const section = document.querySelector(href);
   if (section) {
     section.scrollIntoView({ behavior: "smooth" });
   }
 };
 
-//Reactive property to track dark mode state
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 60;
+  const sections = Menu.value.map((item) => item.href.replace("#", ""));
+  for (const id of [...sections].reverse()) {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 140) {
+      activeSection.value = id;
+      break;
+    }
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll, { passive: true });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+  document.body.style.overflow = "";
+});
+
 const isDarkMode = ref(localStorage.getItem("theme") === "dark");
 
 const toggleDarkMode = () => {
@@ -111,10 +172,26 @@ const toggleDarkMode = () => {
     html.classList.add("dark");
     localStorage.setItem("theme", "dark");
   }
-
-  //update dark mode state
   isDarkMode.value = !isDarkMode.value;
 };
 </script>
 
-<style></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(100%);
+}
+</style>

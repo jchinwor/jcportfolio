@@ -1,89 +1,142 @@
 <template>
-  <section
-    data-aos="zoom-in"
-    class="flex justify-center p-8 items-center dark:text-white min-h-screen  lg:mt-0"
-  >
-    <header
-      class="absolute w-1/2 aspect-[16/5] -skew-x-12 rounded-full bg-gradient-to-r from-[#FF00FF] via-[#00FFFF] to-secondary opacity-30 dark:opacity-20 blur-[100px] left-10 top-0 hidden md:block"
-    ></header>
-    <header
-      class="absolute w-1/2 aspect-[16/5] -skew-x-12 rounded-full bg-gradient-to-r from-[#FF00FF] via-[#00FFFF] to-secondary opacity-30 dark:opacity-20 blur-[100px] right-10 bottom-0 hidden md:block"
-    ></header>
-    <main
-      class="absolute grid lg:grid-cols-2 grid-cols-1 items-center p-2 lg:p-8"
+  <section class="relative flex items-center justify-center min-h-screen overflow-hidden">
+    <!-- Subtle background accents -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/5 dark:bg-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 dark:bg-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div
+      class="relative z-10 grid lg:grid-cols-2 grid-cols-1 items-center w-full max-w-7xl mx-auto px-6 lg:px-12 gap-12 py-20"
+      data-aos="fade-up"
     >
-      <header>
-        <h1 class="mb-6 text-4xl text-center lg:text-left md:text-5xl lg:text-6xl font-bold">
-          Hi, i'm
-          <span
-            class="dark:text-secondary "
-            >Jenkins</span
-          >
+      <!-- Text Content -->
+      <div class="text-center lg:text-left">
+
+        <!-- Availability badge -->
+        <div class="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+          </span>
+          <span class="text-xs font-medium text-gray-600 dark:text-gray-300 tracking-wide">Available for new projects</span>
+        </div>
+
+        <!-- Name -->
+        <h1 class="mb-3 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">
+          Hi, I'm
+          <span class="text-secondary"> Jenkins</span>
         </h1>
-        <h4 class="mb-3 text-center font-bold lg:text-left">
-          Software Engineer / UI/UX Designer
-        </h4>
-        <p class="text-lg text-center lg:text-left max-w-xl mx-auto dark:text-[#86868b] lg:mx-0 ">
-         I transform complex challenges into elegant, user-centered solutions. Specializing in building modern web applications with clean code and thoughtful design
+
+        <!-- Role cycling -->
+        <h2 class="mb-5 text-lg md:text-2xl font-semibold text-gray-500 dark:text-gray-400 min-h-[2rem] flex items-center justify-center lg:justify-start gap-1">
+          <span>{{ currentRole }}</span>
+          <span class="animate-blink inline-block w-0.5 h-6 bg-secondary ml-0.5 rounded-full"></span>
+        </h2>
+
+        <p class="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+          I transform complex challenges into elegant, user-centered solutions — specializing in modern web applications with clean code and thoughtful design.
         </p>
-        <div class="mt-6 flex justify-center lg:justify-start">
-          <Button :onClick="handleClick" label="Show Works" class="cursor-pointer" />
+
+        <!-- CTAs -->
+        <div class="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
+          <Button :onClick="handleClick" label="View Works" class="cursor-pointer" />
           <a
             href="#contact"
-            class="font-semibold text-lg w-[10rem] h-[55px] dark:text-secondary rounded-full ml-2  dark:border-secondary hover:scale-105 bg-white dark:bg-transparent flex justify-center items-center text-primary border-primary"
+            class="font-semibold text-base w-[160px] h-[54px] rounded-full flex justify-center items-center border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white hover:border-secondary hover:text-secondary dark:hover:text-secondary bg-white dark:bg-transparent transition-all duration-200"
           >
-          
-            <span class="ml-1">Contact Me</span>
+            Contact Me
           </a>
         </div>
-      </header>
-     
 
-      <aside
-        class="flex justify-center lg:justify-end mt-20 lg:mt-0 items-center flex-wrap"
-      >
-      
-      <div class="relative w-60 h-60 md:w-100 md:h-100 rounded-full p-3 ">
-        <div class="w-full h-full   rounded-full overflow-hidden ">
-          <img src="@/assets/jenkinsv5.png" alt="jenkins" loading="lazy" class="w-full rounded-full p-2 h-full shadow-xl shadow-[#d0d0d0] border-10 border-transparent object-cover">
+        <!-- Social links -->
+        <div class="mt-8 flex gap-5 justify-center lg:justify-start">
+          <a
+            href="https://www.linkedin.com/in/jenkins-chinwor/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-secondary transition-colors duration-200 hover:scale-110 transform"
+            aria-label="LinkedIn"
+          >
+            <Icon icon="fa-brands:linkedin" class="text-xl" />
+          </a>
+          <a
+            href="https://github.com/jchinwor"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-secondary transition-colors duration-200 hover:scale-110 transform"
+            aria-label="GitHub"
+          >
+            <Icon icon="fa-brands:github" class="text-xl" />
+          </a>
         </div>
       </div>
-      </aside>
-    </main>
-    <!-- <svg class="">
-      <filter id="wavy1">
-        <feTurbulence
-          x="0"
-          y="0"
-          baseFrequency="0.2"
-          numOctaves="5"
-          seed="1"
-        ></feTurbulence>
-        <feDisplacementMap in="SourceGraphic" scale="30" />
-      </filter>
-    </svg> -->
+
+      <!-- Profile Image — minimal, no rainbow ring -->
+      <div class="flex justify-center lg:justify-end items-center">
+        <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+          <!-- Soft glow -->
+          <div class="absolute inset-0 rounded-full bg-secondary/10 dark:bg-secondary/15 blur-2xl scale-110 pointer-events-none"></div>
+          <!-- Outer ring -->
+          <div class="absolute inset-[-6px] rounded-full border border-secondary/25 dark:border-secondary/30"></div>
+          <!-- Image -->
+          <div class="relative w-full h-full rounded-full overflow-hidden border-2 border-secondary/20 shadow-xl shadow-black/10">
+            <img
+              src="@/assets/jenkinsv5.png"
+              alt="Jenkins Chinwor"
+              loading="lazy"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <a
+      href="#services"
+      class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-gray-400 hover:text-secondary transition-colors duration-200 animate-bounce"
+      aria-label="Scroll down"
+    >
+      <span class="text-[10px] font-semibold tracking-[0.2em] uppercase">Scroll</span>
+      <Icon icon="lucide:chevron-down" class="text-base" />
+    </a>
   </section>
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from "vue";
 import Button from "./UI/Button.vue";
 
+const roles = [
+  "Software Engineer",
+  "UI/UX Designer",
+  "Full Stack Developer",
+  "Web Application Builder",
+];
+
+const currentRole = ref(roles[0]);
+let roleIndex = 0;
+let interval;
+
+onMounted(() => {
+  interval = setInterval(() => {
+    roleIndex = (roleIndex + 1) % roles.length;
+    currentRole.value = roles[roleIndex];
+  }, 2800);
+});
+
+onUnmounted(() => clearInterval(interval));
 
 const handleClick = () => {
-   window.location.href = "#projects";
+  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
 };
 </script>
 
 <style scoped>
-.container .card:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  background: transparent;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
-.container .card:nth-of-type(1)::before {
-  filter: url(#wavy1);
+.animate-blink {
+  animation: blink 1s step-end infinite;
 }
 </style>
