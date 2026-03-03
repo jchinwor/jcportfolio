@@ -110,7 +110,7 @@ const roles = [
   "Software Engineer",
   "UI/UX Designer",
   "Full Stack Developer",
-  "Web Application Builder",
+  "Mobile / Web Developer",
 ];
 
 const currentRole = ref(roles[0]);
