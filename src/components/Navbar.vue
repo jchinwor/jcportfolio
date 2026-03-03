@@ -70,7 +70,7 @@
         <!-- Drawer header -->
         <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
           <img v-if="isDarkMode" src="@/assets/jclogo.png" class="w-12" alt="Jenkins Chinwor" />
-          <img v-else src="@/assets/jclogoblack.png" class="w-12" alt="Jenkins Chinwor" />
+          <img v-else src="@/assets/jclogoblack.png" class="w-12" alt="JC SOFT" />
           <button
             @click="closeMenu"
             aria-label="Close menu"
@@ -101,7 +101,7 @@
 
         <!-- Drawer footer -->
         <div class="px-6 py-4 border-t border-gray-100 dark:border-gray-800">
-          <p class="text-xs text-gray-400 text-center">Jenkins Chinwor &copy; {{ new Date().getFullYear() }}</p>
+          <p class="text-xs text-gray-400 text-center">JCsoft &copy; {{ new Date().getFullYear() }}</p>
         </div>
       </aside>
     </transition>
