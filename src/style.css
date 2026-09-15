@@ -1,50 +1,174 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;600;700&display=swap");
 
 @import "tailwindcss";
 
-@theme{
-  --primary: #121212;
-  --secondary: #00FFFF;
-}
-*{
-  font-family: "Montserrat", sans-serif;
-}
 @custom-variant dark (&:where(.dark, .dark *));
 
-@utility border-primary{
-  color: var(--primary);
-}
-@utility border-secondary{
-  color: var(--secondary);
-}
-@utility bg-primary{
-  background-color: var(--primary);
-}
-@utility bg-secondary{
-  background-color: var(--secondary);
-}
-@utility text-primary{
-  color: var(--primary);
-}
-@utility text-secondary{
-  color: var(--secondary);
-}
-@utility text-stroke-primary{
-  -webkit-text-stroke-color: var(--primary);
-}
-@utility stroke-text {
-  --tw-text-opacity: 1;
-  -webkit-text-stroke-width: 1.4px;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke-color: var(--secondary);
-}
-@utility text-stroke-secondary{
-  -webkit-text-stroke-color: var(--secondary);
-  paint-order: stroke;
+/* ------------------------------------------------------------------
+   Semantic tokens. Light values on :root, dark values on .dark.
+   Components use bg-canvas / text-ink / border-edge etc. and never
+   hard-code a hex, so both themes stay intentional.
+------------------------------------------------------------------- */
+:root {
+  --canvas: #ffffff;
+  --card: #ffffff;
+  --band: #f4f4f6;
+  --edge: rgba(10, 10, 12, 0.09);
+  --edge-strong: rgba(10, 10, 12, 0.18);
+  --ink: #0a0a0c;
+  --muted: #5d5f66;
+  --faint: #8b8d94;
+  --accent: #0891b2;      /* cyan tuned for contrast on white */
+  --accent-2: #6d4fe6;    /* violet, aurora only */
+  --accent-soft: rgba(8, 145, 178, 0.10);
+  --on-accent: #ffffff;
+  --btn: #0a0a0c;
+  --on-btn: #ffffff;
+  --scrollbar: #c9cacf;
+  color-scheme: light;
 }
 
+.dark {
+  --canvas: #0a0a0c;
+  --card: #111214;
+  --band: #141519;
+  --edge: rgba(255, 255, 255, 0.08);
+  --edge-strong: rgba(255, 255, 255, 0.16);
+  --ink: #f4f4f6;
+  --muted: #95979e;
+  --faint: #6b6d75;
+  --accent: #22d3ee;
+  --accent-2: #7c5cff;
+  --accent-soft: rgba(34, 211, 238, 0.10);
+  --on-accent: #0a0a0c;
+  --btn: #f4f4f6;
+  --on-btn: #0a0a0c;
+  --scrollbar: #2a2b30;
+  color-scheme: dark;
+}
 
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-card: var(--card);
+  --color-band: var(--band);
+  --color-edge: var(--edge);
+  --color-edge-strong: var(--edge-strong);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-btn: var(--btn);
+  --color-on-btn: var(--on-btn);
 
+  --font-sans: "Inter", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", "General Sans", ui-sans-serif, system-ui, sans-serif;
 
+  --radius-card: 12px;
+  --radius-panel: 28px;
+  --radius-input: 4px;
+}
 
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
 
+body {
+  font-family: var(--font-sans);
+  background-color: var(--canvas);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ------------------------------------------------------------------
+   Utilities
+------------------------------------------------------------------- */
+
+/* The signature: one narrow vertical beam, cyan melting into violet. */
+@utility aurora-beam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.aurora-beam::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -25%;
+  width: 11rem;
+  height: 150%;
+  transform: translateX(-50%) rotate(14deg);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in oklab, var(--accent) 70%, transparent) 28%,
+    color-mix(in oklab, var(--accent-2) 75%, transparent) 62%,
+    transparent 100%
+  );
+  filter: blur(64px);
+  opacity: 0.5;
+  animation: beam-drift 14s ease-in-out infinite alternate;
+}
+.dark .aurora-beam::before {
+  opacity: 0.7;
+}
+@keyframes beam-drift {
+  from { transform: translateX(-58%) rotate(10deg); }
+  to   { transform: translateX(-42%) rotate(14deg); }
+}
+
+/* Gradient stroke: a 1px aurora border via mask, used on framed media. */
+@utility gradient-stroke {
+  position: relative;
+}
+.gradient-stroke::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2) 60%, transparent);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Horizontal fade for the marquee rail edges. */
+@utility mask-fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Tactile press for buttons and pills. */
+@utility press {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.press:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .aurora-beam::before { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

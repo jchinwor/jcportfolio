@@ -1,104 +1,82 @@
 <template>
-  <section class="relative flex items-center justify-center min-h-screen overflow-hidden">
-    <!-- Subtle background accents -->
-    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/5 dark:bg-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 dark:bg-secondary/5 rounded-full blur-[120px] pointer-events-none"></div>
+  <section class="relative overflow-hidden">
+    <!-- The signature: a single narrow aurora beam, never a full background -->
+    <div class="aurora-beam" aria-hidden="true"></div>
 
     <div
-      class="relative z-10 grid lg:grid-cols-2 grid-cols-1 items-center w-full max-w-7xl mx-auto px-6 lg:px-12 gap-12 py-20"
-      data-aos="fade-up"
+      class="relative mx-auto grid min-h-[calc(100dvh-4.5rem)] max-w-[1200px] grid-cols-1 items-center gap-12
+             px-4 pb-16 pt-10 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:pb-24 lg:pt-16"
     >
-      <!-- Text Content -->
-      <div class="text-center lg:text-left">
-
-        <!-- Availability badge -->
-        <div class="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
-          <span class="relative flex h-2.5 w-2.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+      <!-- Copy -->
+      <div class="lg:col-span-7">
+        <!-- Availability: the one small label the hero gets. The dot carries real state. -->
+        <div class="inline-flex items-center gap-2 rounded-full border border-edge bg-card/70 px-3.5 py-1.5 backdrop-blur">
+          <span class="relative flex h-2 w-2">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
           </span>
-          <span class="text-xs font-medium text-gray-600 dark:text-gray-300 tracking-wide">Available for new projects</span>
+          <span class="text-xs font-medium text-muted">Available for new projects</span>
         </div>
 
-        <!-- Name -->
-        <h1 class="mb-3 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">
-          Hi, I'm
-          <span class="text-secondary"> Jenkins</span>
+        <h1 class="mt-7 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.04em] text-ink sm:text-6xl lg:text-7xl xl:text-[84px]">
+          Hi, I'm Jenkins.
         </h1>
 
-        <!-- Role cycling -->
-        <h2 class="mb-5 text-lg md:text-2xl font-semibold text-gray-500 dark:text-gray-400 min-h-[2rem] flex items-center justify-center lg:justify-start gap-1">
-          <span>{{ currentRole }}</span>
-          <span class="animate-blink inline-block w-0.5 h-6 bg-secondary ml-0.5 rounded-full"></span>
-        </h2>
-
-        <p class="text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-          I transform complex challenges into elegant, user-centered solutions — specializing in modern web applications with clean code and thoughtful design.
+        <!-- Role cycler -->
+        <p class="mt-5 flex min-h-[2rem] items-center font-display text-xl font-medium text-muted sm:text-2xl" aria-live="polite">
+          <span class="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">{{ currentRole }}</span>
+          <span class="ml-1 inline-block h-6 w-0.5 animate-blink rounded-full bg-accent" aria-hidden="true"></span>
         </p>
 
-        <!-- CTAs -->
-        <div class="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
-          <Button :onClick="handleClick" label="View Works" class="cursor-pointer" />
-          <a
-            href="#contact"
-            class="font-semibold text-base w-[160px] h-[54px] rounded-full flex justify-center items-center border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white hover:border-secondary hover:text-secondary dark:hover:text-secondary bg-white dark:bg-transparent transition-all duration-200"
-          >
-            Contact Me
-          </a>
+        <p class="mt-6 max-w-[48ch] text-base leading-relaxed text-muted md:text-lg">
+          I turn complex challenges into elegant, user-centered web applications with clean code and thoughtful design.
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-3">
+          <Button label="View Works" icon="tabler:arrow-down" :onClick="scrollToProjects" />
+          <Button label="Contact Me" variant="ghost" href="#contact" />
         </div>
 
-        <!-- Social links -->
-        <div class="mt-8 flex gap-5 justify-center lg:justify-start">
+        <div class="mt-9 flex items-center gap-4">
           <a
             href="https://www.linkedin.com/in/jenkins-chinwor/"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-secondary transition-colors duration-200 hover:scale-110 transform"
             aria-label="LinkedIn"
+            class="press inline-flex h-10 w-10 items-center justify-center rounded-full border border-edge text-muted transition-colors duration-200 hover:border-edge-strong hover:text-ink"
           >
-            <Icon icon="fa-brands:linkedin" class="text-xl" />
+            <Icon icon="tabler:brand-linkedin" class="text-xl" aria-hidden="true" />
           </a>
           <a
             href="https://github.com/jchinwor"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-500 dark:text-gray-400 hover:text-secondary dark:hover:text-secondary transition-colors duration-200 hover:scale-110 transform"
             aria-label="GitHub"
+            class="press inline-flex h-10 w-10 items-center justify-center rounded-full border border-edge text-muted transition-colors duration-200 hover:border-edge-strong hover:text-ink"
           >
-            <Icon icon="fa-brands:github" class="text-xl" />
+            <Icon icon="tabler:brand-github" class="text-xl" aria-hidden="true" />
           </a>
         </div>
       </div>
 
-      <!-- Profile Image — minimal, no rainbow ring -->
-      <div class="flex justify-center lg:justify-end items-center">
-        <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-          <!-- Soft glow -->
-          <div class="absolute inset-0 rounded-full bg-secondary/10 dark:bg-secondary/15 blur-2xl scale-110 pointer-events-none"></div>
-          <!-- Outer ring -->
-          <div class="absolute inset-[-6px] rounded-full border border-secondary/25 dark:border-secondary/30"></div>
-          <!-- Image -->
-          <div class="relative w-full h-full rounded-full overflow-hidden border-2 border-secondary/20 shadow-xl shadow-black/10">
+      <!-- Portrait in a framed, slightly tilted card with an aurora stroke -->
+      <div class="flex justify-center lg:col-span-5 lg:justify-end">
+        <div class="relative w-64 sm:w-72 lg:w-80 xl:w-[22rem]">
+          <div class="absolute -inset-10 rounded-full bg-accent/15 blur-3xl dark:bg-accent/10" aria-hidden="true"></div>
+          <div
+            class="gradient-stroke relative aspect-[4/5] -rotate-2 overflow-hidden rounded-[20px] bg-card shadow-[0_6px_25px_rgba(0,0,0,0.25)]
+                   transition-transform duration-500 ease-out hover:rotate-0"
+          >
             <img
               src="@/assets/jenkinsv5.png"
-              alt="Jenkins Chinwor"
-              loading="lazy"
-              class="w-full h-full object-cover"
+              alt="Portrait of Jenkins Chinwor"
+              fetchpriority="high"
+              class="h-full w-full object-cover object-top"
             />
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Scroll indicator -->
-    <a
-      href="#services"
-      class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-gray-400 hover:text-secondary transition-colors duration-200 animate-bounce"
-      aria-label="Scroll down"
-    >
-      <span class="text-[10px] font-semibold tracking-[0.2em] uppercase">Scroll</span>
-      <Icon icon="lucide:chevron-down" class="text-base" />
-    </a>
   </section>
 </template>
 
@@ -126,7 +104,7 @@ onMounted(() => {
 
 onUnmounted(() => clearInterval(interval));
 
-const handleClick = () => {
+const scrollToProjects = () => {
   document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
 };
 </script>

@@ -1,107 +1,95 @@
 <template>
+  <!-- Sentinel: when it leaves the viewport the header gains its backdrop. -->
+  <div ref="sentinel" aria-hidden="true" class="absolute top-0 h-px w-px"></div>
+
   <header
-    class="sticky top-0 z-30 transition-all duration-300"
-    :class="isScrolled ? 'bg-white/95 dark:bg-[#121212]/95 backdrop-blur-md shadow-sm border-b border-gray-100 dark:border-gray-800' : ''"
+    class="sticky top-0 z-30 transition-[background-color,border-color,backdrop-filter] duration-300 border-b"
+    :class="isScrolled ? 'bg-canvas/80 backdrop-blur-xl border-edge' : 'bg-transparent border-transparent'"
   >
-    <div class="flex justify-between items-center py-4 px-4 xl:px-20">
+    <div class="mx-auto flex h-16 md:h-[72px] max-w-[1200px] items-center justify-between px-4 sm:px-6">
       <!-- Logo -->
-      <a href="#" aria-label="Go to top">
-        <img v-if="isDarkMode" src="@/assets/jclogo.png" class="w-14" alt="Jenkins Chinwor" />
-        <img v-else src="@/assets/jclogoblack.png" class="w-14" alt="Jenkins Chinwor" />
+      <a href="#" aria-label="Back to top" class="flex items-center shrink-0">
+        <img v-if="isDarkMode" src="@/assets/jclogo.png" class="h-9 w-auto" alt="Jenkins Chinwor" />
+        <img v-else src="@/assets/jclogoblack.png" class="h-9 w-auto" alt="Jenkins Chinwor" />
       </a>
 
-      <!-- Desktop Navigation -->
-      <nav class="hidden md:flex items-center gap-2 bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl px-6 py-2.5 shadow-sm">
-        <ul class="flex items-center gap-6">
+      <!-- Desktop: floating pill nav -->
+      <nav aria-label="Primary" class="hidden md:block absolute left-1/2 -translate-x-1/2">
+        <ul class="flex items-center gap-1 rounded-full border border-edge bg-card/70 backdrop-blur-xl p-1">
           <li v-for="item in Menu" :key="item.name">
             <a
-              @click.prevent="scrollToSection(item.href)"
               :href="item.href"
-              class="relative text-sm lg:text-base font-semibold text-gray-700 dark:text-white hover:text-secondary dark:hover:text-secondary transition-colors duration-200 group"
-              :class="activeSection === item.href.replace('#', '') ? '!text-secondary' : ''"
+              @click.prevent="scrollToSection(item.href)"
+              class="press block rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200"
+              :class="activeSection === item.id ? 'bg-band text-ink' : 'text-muted hover:text-ink'"
+              :aria-current="activeSection === item.id ? 'location' : undefined"
             >
               {{ item.name }}
-              <span
-                class="absolute -bottom-1 left-0 h-0.5 bg-secondary rounded-full transition-all duration-300 group-hover:w-full"
-                :class="activeSection === item.href.replace('#', '') ? 'w-full' : 'w-0'"
-              ></span>
             </a>
           </li>
         </ul>
-        <button
-          @click="toggleDarkMode"
-          class="ml-6 flex items-center"
-          :aria-label="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
-        >
-          <Icon v-if="!isDarkMode" icon="tabler:moon-filled" class="text-2xl text-gray-600 hover:text-secondary transition-colors duration-200 cursor-pointer" />
-          <Icon v-else icon="solar:sun-outline" class="text-2xl text-secondary hover:opacity-80 transition-opacity duration-200 cursor-pointer" />
-        </button>
       </nav>
 
-      <!-- Mobile: dark mode + hamburger -->
-      <div class="md:hidden flex items-center gap-3">
-        <button @click="toggleDarkMode" :aria-label="isDarkMode ? 'Light mode' : 'Dark mode'">
-          <Icon v-if="!isDarkMode" icon="tabler:moon-filled" class="text-2xl text-gray-600" />
-          <Icon v-else icon="solar:sun-outline" class="text-2xl text-secondary" />
+      <!-- Right: theme toggle + mobile menu -->
+      <div class="flex items-center gap-2">
+        <button
+          @click="toggleDarkMode"
+          class="press inline-flex h-9 w-9 items-center justify-center rounded-full border border-edge text-muted hover:text-ink hover:border-edge-strong transition-colors duration-200"
+          :aria-label="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+        >
+          <Icon :icon="isDarkMode ? 'tabler:sun' : 'tabler:moon'" class="text-lg" aria-hidden="true" />
         </button>
-        <button @click="openMenu" aria-label="Open menu" class="text-gray-700 dark:text-white">
-          <Icon icon="hugeicons:menu-02" class="text-3xl" />
+        <button
+          @click="openMenu"
+          aria-label="Open menu"
+          class="press md:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-edge text-ink"
+        >
+          <Icon icon="tabler:menu-2" class="text-xl" aria-hidden="true" />
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Mobile: Backdrop -->
+  <!-- Mobile drawer -->
   <Teleport to="body">
     <transition name="fade">
-      <div
-        v-if="isMenuOpen"
-        class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
-        @click="closeMenu"
-      ></div>
+      <div v-if="isMenuOpen" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden" @click="closeMenu"></div>
     </transition>
 
-    <!-- Mobile: Slide-in Drawer -->
     <transition name="slide">
       <aside
         v-if="isMenuOpen"
-        class="fixed top-0 right-0 h-full w-72 z-50 bg-white dark:bg-[#1a1a1a] shadow-2xl flex flex-col md:hidden"
+        class="fixed top-0 right-0 z-50 flex h-full w-72 flex-col border-l border-edge bg-canvas md:hidden"
+        aria-label="Mobile navigation"
       >
-        <!-- Drawer header -->
-        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
-          <img v-if="isDarkMode" src="@/assets/jclogo.png" class="w-12" alt="Jenkins Chinwor" />
-          <img v-else src="@/assets/jclogoblack.png" class="w-12" alt="JC SOFT" />
+        <div class="flex items-center justify-between border-b border-edge px-5 py-4">
+          <img v-if="isDarkMode" src="@/assets/jclogo.png" class="h-9 w-auto" alt="Jenkins Chinwor" />
+          <img v-else src="@/assets/jclogoblack.png" class="h-9 w-auto" alt="Jenkins Chinwor" />
           <button
             @click="closeMenu"
             aria-label="Close menu"
-            class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+            class="press inline-flex h-9 w-9 items-center justify-center rounded-full border border-edge text-muted hover:text-ink"
           >
-            <Icon icon="zondicons:close-solid" class="text-xl" />
+            <Icon icon="tabler:x" class="text-lg" aria-hidden="true" />
           </button>
         </div>
 
-        <!-- Drawer nav items -->
-        <nav class="flex flex-col px-4 py-6 gap-1 flex-1 overflow-y-auto">
+        <nav class="flex flex-1 flex-col gap-1 overflow-y-auto p-3">
           <a
             v-for="item in Menu"
             :key="item.name"
-            @click.prevent="scrollToSection(item.href)"
             :href="item.href"
-            class="flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-all duration-200"
-            :class="
-              activeSection === item.href.replace('#', '')
-                ? 'bg-secondary/10 text-secondary'
-                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-secondary dark:hover:text-secondary'
-            "
+            @click.prevent="scrollToSection(item.href)"
+            class="press flex items-center gap-3 rounded-full px-4 py-3 text-[15px] font-medium transition-colors duration-200"
+            :class="activeSection === item.id ? 'bg-band text-ink' : 'text-muted hover:bg-band hover:text-ink'"
           >
-            <Icon :icon="item.icon" class="text-lg opacity-70" />
+            <Icon :icon="item.icon" class="text-lg" aria-hidden="true" />
             {{ item.name }}
           </a>
         </nav>
 
-        <!-- Drawer footer -->
-        <div class="px-6 py-4 border-t border-gray-100 dark:border-gray-800">
-          <p class="text-xs text-gray-400 text-center">JCsoft &copy; {{ new Date().getFullYear() }}</p>
+        <div class="border-t border-edge px-5 py-4">
+          <p class="text-xs text-faint">JCsoft &copy; {{ new Date().getFullYear() }}</p>
         </div>
       </aside>
     </transition>
@@ -114,13 +102,14 @@ import { ref, onMounted, onUnmounted } from "vue";
 const isMenuOpen = ref(false);
 const isScrolled = ref(false);
 const activeSection = ref("");
+const sentinel = ref(null);
 
-const Menu = ref([
-  { name: "Services", href: "#services", icon: "lucide:layout-grid" },
-  { name: "Tools", href: "#skills", icon: "lucide:wrench" },
-  { name: "Projects", href: "#projects", icon: "lucide:folder-open" },
-  { name: "Contact", href: "#contact", icon: "lucide:mail" },
-]);
+const Menu = [
+  { name: "Services", href: "#services", id: "services", icon: "tabler:layout-grid" },
+  { name: "Tools", href: "#skills", id: "skills", icon: "tabler:tool" },
+  { name: "Projects", href: "#projects", id: "projects", icon: "tabler:folder" },
+  { name: "Contact", href: "#contact", id: "contact", icon: "tabler:mail" },
+];
 
 const openMenu = () => {
   isMenuOpen.value = true;
@@ -134,34 +123,51 @@ const closeMenu = () => {
 
 const scrollToSection = (href) => {
   closeMenu();
-  const section = document.querySelector(href);
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
+  document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
 };
 
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 60;
-  const sections = Menu.value.map((item) => item.href.replace("#", ""));
-  for (const id of [...sections].reverse()) {
-    const el = document.getElementById(id);
-    if (el && window.scrollY >= el.offsetTop - 140) {
-      activeSection.value = id;
-      break;
-    }
-  }
-};
+let sentinelObserver;
+let sectionObserver;
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll, { passive: true });
+  // Header backdrop: driven by whether the top-of-page sentinel is visible.
+  sentinelObserver = new IntersectionObserver(
+    ([entry]) => { isScrolled.value = !entry.isIntersecting; },
+    { threshold: 0 }
+  );
+  if (sentinel.value) sentinelObserver.observe(sentinel.value);
+
+  // Scroll spy: a section is active while it crosses the middle band of the viewport.
+  // Sections are async components, so observe once they exist.
+  sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) activeSection.value = entry.target.id;
+      });
+    },
+    { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+  );
+  const attach = () => {
+    const missing = Menu.filter((m) => !document.getElementById(m.id));
+    Menu.forEach((m) => {
+      const el = document.getElementById(m.id);
+      if (el) sectionObserver.observe(el);
+    });
+    return missing.length === 0;
+  };
+  if (!attach()) {
+    const retry = setInterval(() => { if (attach()) clearInterval(retry); }, 300);
+    setTimeout(() => clearInterval(retry), 10000);
+  }
 });
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
+  sentinelObserver?.disconnect();
+  sectionObserver?.disconnect();
   document.body.style.overflow = "";
 });
 
-const isDarkMode = ref(localStorage.getItem("theme") === "dark");
+const isDarkMode = ref(document.documentElement.classList.contains("dark"));
 
 const toggleDarkMode = () => {
   const html = document.documentElement;
@@ -178,20 +184,12 @@ const toggleDarkMode = () => {
 
 <style scoped>
 .fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.25s ease;
-}
+.fade-leave-active { transition: opacity 0.25s ease; }
 .fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+.fade-leave-to { opacity: 0; }
 
 .slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+.slide-leave-active { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 .slide-enter-from,
-.slide-leave-to {
-  transform: translateX(100%);
-}
+.slide-leave-to { transform: translateX(100%); }
 </style>

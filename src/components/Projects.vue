@@ -1,63 +1,42 @@
 <template>
-  <section class="mt-32 relative px-4 md:px-8 lg:px-16 mx-auto w-full max-w-7xl" id="projects">
-    <SectionHeader title="Projects" />
+  <section id="projects" class="scroll-mt-20 py-20 lg:py-24">
+    <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
+      <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+        <SectionHeader
+          title="Selected projects"
+          subtitle="Websites, apps, and interfaces shipped for clients and for myself."
+        />
 
-    <!-- Category Filter Tabs -->
-    <div class="mt-12 flex flex-wrap justify-center gap-3" data-aos="fade-up">
-      <button
-        v-for="cat in categories"
-        :key="cat"
-        @click="activeCategory = cat"
-        class="px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-200"
-        :class="
-          activeCategory === cat
-            ? 'bg-primary dark:bg-secondary text-white dark:text-primary border-primary dark:border-secondary scale-105'
-            : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-secondary hover:text-secondary dark:hover:text-secondary'
-        "
-      >
-        {{ cat }}
-      </button>
-    </div>
+        <!-- Category filter pills -->
+        <div class="flex flex-wrap gap-2" role="tablist" aria-label="Filter projects by category" data-aos="fade-up">
+          <button
+            v-for="cat in categories"
+            :key="cat"
+            role="tab"
+            :aria-selected="activeCategory === cat"
+            @click="activeCategory = cat"
+            class="press rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200"
+            :class="
+              activeCategory === cat
+                ? 'border-btn bg-btn text-on-btn'
+                : 'border-edge bg-card text-muted hover:border-edge-strong hover:text-ink'
+            "
+          >
+            {{ cat }}
+            <span class="ml-1 text-xs opacity-60">{{ countFor(cat) }}</span>
+          </button>
+        </div>
+      </div>
 
-    <!-- Custom Navigation Buttons -->
-    <button
-      class="swiper-prev absolute top-2/3 left-0 transform -translate-y-1/2 z-10 text-white dark:bg-secondary bg-primary p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-200"
-      aria-label="Previous project"
-    >
-      <Icon icon="line-md:arrow-left" class="font-bold text-2xl" />
-    </button>
-    <button
-      class="swiper-next absolute top-2/3 right-0 transform -translate-y-1/2 z-10 text-white dark:bg-secondary bg-primary p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-200"
-      aria-label="Next project"
-    >
-      <Icon icon="line-md:arrow-right" class="font-bold text-2xl" />
-    </button>
-
-    <!-- Swiper Component -->
-    <swiper
-      :effect="'coverflow'"
-      grabCursor
-      centeredSlides
-      :slidesPerView="'auto'"
-      :coverflowEffect="{
-        rotate: 45,
-        stretch: 0,
-        depth: 100,
-        modifier: 1,
-        slideShadows: true,
-      }"
-      :navigation="navigationOptions"
-      loop
-      pagination
-      :modules="[EffectCoverflow, Navigation]"
-      class="max-w-full mt-10"
-    >
-      <swiper-slide
-        class="max-w-[380px]"
-        v-for="(project, index) in filteredProjects"
-        :key="index"
+      <TransitionGroup
+        v-if="filteredProjects.length"
+        name="grid"
+        tag="div"
+        class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
         <ProjectCard
+          v-for="project in filteredProjects"
+          :key="project.title"
           :title="project.title"
           :description="project.description"
           :image="project.image"
@@ -65,16 +44,26 @@
           :liveLink="project.liveLink"
           :codeLink="project.codeLink"
         />
-      </swiper-slide>
-    </swiper>
+      </TransitionGroup>
 
-    <!-- Empty state -->
-    <p
-      v-if="filteredProjects.length === 0"
-      class="text-center text-gray-500 dark:text-gray-400 mt-16 py-12"
-    >
-      No projects in this category yet.
-    </p>
+      <!-- Empty state -->
+      <div
+        v-else
+        class="mt-12 flex flex-col items-center justify-center rounded-panel border border-dashed border-edge-strong bg-band px-6 py-20 text-center"
+      >
+        <span class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-edge bg-card text-muted">
+          <Icon icon="tabler:folder-open" class="text-2xl" aria-hidden="true" />
+        </span>
+        <p class="mt-4 font-display text-lg font-semibold text-ink">Nothing here yet</p>
+        <p class="mt-1 max-w-sm text-sm text-muted">No projects in this category for now. Try another filter.</p>
+        <button
+          @click="activeCategory = 'All'"
+          class="press mt-6 rounded-full border border-edge-strong px-5 py-2 text-sm font-medium text-ink hover:bg-card"
+        >
+          Show all projects
+        </button>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -82,12 +71,6 @@
 import { ref, computed } from "vue";
 import SectionHeader from "./UI/SectionHeader.vue";
 import ProjectCard from "./UI/ProjectCard.vue";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { EffectCoverflow, Navigation } from "swiper/modules";
 
 import jagma from "@/assets/jagma.png";
 import ageunited from "@/assets/ageunited.png";
@@ -103,12 +86,7 @@ import goodluckafricaui from "@/assets/goodluckafricaui.png";
 const categories = ["All", "Web", "App", "Design"];
 const activeCategory = ref("All");
 
-const navigationOptions = {
-  prevEl: ".swiper-prev",
-  nextEl: ".swiper-next",
-};
-
-const projects = ref([
+const projects = [
   {
     title: "Jagma Medical Foundation",
     description: "An NGO website raising awareness and providing medical aid resources for tuberculosis patients across Ghana.",
@@ -199,22 +177,29 @@ const projects = ref([
     liveLink: "https://www.figma.com/proto/6injL4VGY371Ya2BWt312a/Goodluck-Africa-UI?node-id=7-2&starting-point-node-id=7%3A2",
     codeLink: null,
   },
-]);
+];
 
-const filteredProjects = computed(() => {
-  if (activeCategory.value === "All") return projects.value;
-  return projects.value.filter((p) => p.category === activeCategory.value);
-});
+const countFor = (cat) => (cat === "All" ? projects.length : projects.filter((p) => p.category === cat).length);
+
+const filteredProjects = computed(() =>
+  activeCategory.value === "All" ? projects : projects.filter((p) => p.category === activeCategory.value)
+);
 </script>
 
-<style>
-.swiper-prev,
-.swiper-next {
-  cursor: pointer;
+<style scoped>
+.grid-enter-active,
+.grid-leave-active,
+.grid-move {
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.grid-enter-from,
+.grid-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.grid-leave-active {
+  position: absolute;
+  width: 0;
+  overflow: hidden;
 }
 </style>

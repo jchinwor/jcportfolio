@@ -1,50 +1,46 @@
 <template>
-  <button
-    @click="onClick"
-    class="relative overflow-hidden rounded-full bg-gray-700 dark:bg-white text-white w-[180px] h-[60px] text-lg font-semibold flex justify-center items-center transition-all duration-300"
+  <component
+    :is="href ? 'a' : 'button'"
+    :href="href || undefined"
+    :type="href ? undefined : type"
+    :disabled="href ? undefined : disabled"
+    :aria-disabled="disabled ? 'true' : undefined"
+    @click="handleClick"
+    class="press inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium
+           transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-canvas
+           disabled:opacity-60 disabled:cursor-not-allowed"
+    :class="[sizeClass, variantClass]"
   >
-    <div
-      class="absolute inset-0 scale-[1.06] blur-lg transition-transform duration-300"
-    >
-      <div
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110px] rounded-full bg-gradient-to-r from-[#d9754d] via-[#785ae4] to-secondary animate-rotate"
-      ></div>
-    </div>
-    <div
-      class="relative w-[176px] h-[54px] flex justify-center items-center rounded-full bg-black text-white border border-primary"
-    >
-      {{ label }}
-    </div>
-  </button>
+    <slot>{{ label }}</slot>
+    <Icon v-if="icon" :icon="icon" class="text-[1.05em]" aria-hidden="true" />
+  </component>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-
-defineProps({
-  label: {
-    type: String,
-    default: "Button",
-  },
-  onClick: {
-    type: Function,
-    default: () => {},
-  },
+const props = defineProps({
+  label: { type: String, default: "" },
+  variant: { type: String, default: "primary" }, // primary | ghost
+  size: { type: String, default: "md" },        // md | sm
+  type: { type: String, default: "button" },
+  href: { type: String, default: "" },
+  icon: { type: String, default: "" },
+  disabled: { type: Boolean, default: false },
+  onClick: { type: Function, default: null },
 });
 
+const sizeClass = props.size === "sm" ? "h-10 px-5 text-sm" : "h-12 px-7 text-[15px]";
 
+const variantClass =
+  props.variant === "ghost"
+    ? "border border-edge-strong text-ink bg-transparent hover:border-ink hover:bg-band"
+    : "bg-btn text-on-btn hover:opacity-90";
+
+const handleClick = (e) => {
+  if (props.disabled) {
+    e.preventDefault();
+    return;
+  }
+  if (props.onClick) props.onClick(e);
+};
 </script>
-
-<style scoped>
-@keyframes rotate {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-.animate-rotate {
-  animation: rotate 2s linear infinite;
-}
-</style>

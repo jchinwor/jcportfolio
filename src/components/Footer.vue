@@ -1,76 +1,70 @@
 <template>
-  <footer class="z-10 text-white bg-primary mt-20 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-6 py-12">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-
+  <footer class="border-t border-edge bg-canvas">
+    <div class="mx-auto max-w-[1200px] px-4 py-14 sm:px-6">
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-12">
         <!-- Brand -->
-        <div class="flex flex-col gap-4">
-          <img src="@/assets/jclogo.png" class="w-16" alt="Jenkins Chinwor logo" />
-          <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+        <div class="flex flex-col gap-4 md:col-span-6">
+          <img v-if="isDark" src="@/assets/jclogo.png" class="h-10 w-auto self-start" alt="Jenkins Chinwor logo" />
+          <img v-else src="@/assets/jclogoblack.png" class="h-10 w-auto self-start" alt="Jenkins Chinwor logo" />
+          <p class="max-w-xs text-sm leading-relaxed text-muted">
             Building fast, elegant, and user-centered digital experiences. Let's create something great together.
           </p>
-          <div class="flex gap-4 mt-1">
+          <div class="mt-1 flex gap-3">
             <a
               href="https://www.linkedin.com/in/jenkins-chinwor/"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-gray-400 hover:text-secondary transition-colors duration-200"
               aria-label="LinkedIn"
+              class="press inline-flex h-9 w-9 items-center justify-center rounded-full border border-edge text-muted transition-colors duration-200 hover:border-edge-strong hover:text-ink"
             >
-              <Icon icon="fa-brands:linkedin" class="text-xl" />
+              <Icon icon="tabler:brand-linkedin" class="text-lg" aria-hidden="true" />
             </a>
             <a
               href="https://github.com/jchinwor"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-gray-400 hover:text-secondary transition-colors duration-200"
               aria-label="GitHub"
+              class="press inline-flex h-9 w-9 items-center justify-center rounded-full border border-edge text-muted transition-colors duration-200 hover:border-edge-strong hover:text-ink"
             >
-              <Icon icon="fa-brands:github" class="text-xl" />
+              <Icon icon="tabler:brand-github" class="text-lg" aria-hidden="true" />
             </a>
           </div>
         </div>
 
-        <!-- Quick Links -->
-        <div>
-          <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-widest">Quick Links</h4>
-          <ul class="space-y-2">
+        <!-- Quick links -->
+        <nav aria-label="Footer" class="md:col-span-3">
+          <h4 class="text-sm font-semibold text-ink">Quick links</h4>
+          <ul class="mt-4 space-y-2.5">
             <li v-for="link in navLinks" :key="link.name">
-              <a
-                :href="link.href"
-                class="text-gray-400 hover:text-secondary transition-colors duration-200 text-sm"
-              >
+              <a :href="link.href" class="text-sm text-muted transition-colors duration-200 hover:text-ink">
                 {{ link.name }}
               </a>
             </li>
           </ul>
-        </div>
+        </nav>
 
         <!-- Services -->
-        <div>
-          <h4 class="font-semibold text-white mb-4 text-sm uppercase tracking-widest">Services</h4>
-          <ul class="space-y-2">
-            <li v-for="service in serviceLinks" :key="service" class="text-gray-400 text-sm">
+        <div class="md:col-span-3">
+          <h4 class="text-sm font-semibold text-ink">Services</h4>
+          <ul class="mt-4 space-y-2.5">
+            <li v-for="service in serviceLinks" :key="service" class="text-sm text-muted">
               {{ service }}
             </li>
           </ul>
         </div>
       </div>
 
-      <!-- Bottom Bar -->
-      <div class="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
-        <p class="text-gray-500 text-sm">
-          &copy; {{ new Date().getFullYear() }} JCsoft. All Rights Reserved.
-        </p>
-        <p class="text-gray-600 text-xs">
-          <!-- Built with love -->
-        </p>
+      <div class="mt-12 flex flex-col gap-2 border-t border-edge pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
+        <p>&copy; {{ new Date().getFullYear() }} JCsoft. All rights reserved.</p>
+        <p>Designed and built by Jenkins Chinwor.</p>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from "vue";
+
 const navLinks = [
   { name: "Services", href: "#services" },
   { name: "Technologies", href: "#skills" },
@@ -78,12 +72,16 @@ const navLinks = [
   { name: "Contact", href: "#contact" },
 ];
 
-const serviceLinks = [
-  "Web Development",
-  "App Development",
-  "UI/UX Design",
-  "Digital Marketing",
-];
-</script>
+const serviceLinks = ["Web Development", "App Development", "UI/UX Design", "Digital Marketing"];
 
-<style></style>
+// Track the theme class so the right logo file shows in each mode.
+const isDark = ref(document.documentElement.classList.contains("dark"));
+let observer;
+onMounted(() => {
+  observer = new MutationObserver(() => {
+    isDark.value = document.documentElement.classList.contains("dark");
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+});
+onUnmounted(() => observer?.disconnect());
+</script>
