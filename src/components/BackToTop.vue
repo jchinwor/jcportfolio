@@ -4,7 +4,7 @@
       v-if="isVisible"
       @click="scrollToTop"
       aria-label="Back to top"
-      class="press fixed bottom-5 right-5 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-edge bg-card/80 text-ink shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur transition-colors duration-200 hover:border-edge-strong"
+      class="press fixed bottom-5 left-5 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-edge bg-card/80 text-ink shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur transition-colors duration-200 hover:border-edge-strong"
     >
       <Icon icon="tabler:arrow-up" class="text-xl" aria-hidden="true" />
     </button>
