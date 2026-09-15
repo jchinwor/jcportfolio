@@ -54,9 +54,8 @@
         </div>
       </div>
 
-      <div class="mt-12 flex flex-col gap-2 border-t border-edge pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
+      <div class="mt-12 border-t border-edge pt-6 text-xs text-faint">
         <p>&copy; {{ new Date().getFullYear() }} JCsoft. All rights reserved.</p>
-        <p>Designed and built by Jenkins Chinwor.</p>
       </div>
     </div>
   </footer>

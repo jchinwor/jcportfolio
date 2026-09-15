@@ -14,11 +14,7 @@
               Have a project in mind or want to discuss potential opportunities? I'm always open to new challenges and collaborations.
             </p>
 
-            <dl class="mt-10 space-y-5 text-sm">
-              <div>
-                <dt class="text-faint">Based in</dt>
-                <dd class="mt-1 font-medium text-ink">Ghana, working worldwide</dd>
-              </div>
+            <dl class="mt-10 text-sm">
               <div>
                 <dt class="text-faint">Elsewhere</dt>
                 <dd class="mt-2 flex items-center gap-3">
