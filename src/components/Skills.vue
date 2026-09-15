@@ -66,7 +66,7 @@ const tools = [
   { name: "MongoDB", logo: "/logos/mongodb.png" },
   { name: "PostgreSQL", logo: "/logos/postgresql.png" },
   { name: "MySQL", logo: "/logos/mysql.png" },
-  { name: "React Native", logo: "https://cdn.simpleicons.org/reactnative/61DAFB" },
+  { name: "React Native", logo: "/logos/reactjs.png" },
   { name: "Laravel", logo: "https://cdn.simpleicons.org/laravel/FF2D20" },
   { name: "WordPress", logo: "/logos/wordpress.png" },
   { name: "Git", logo: "/logos/git.png" },
