@@ -1,0 +1,2534 @@
+{
+  "targetName": "JcLogo",
+  "targetId": "jclogo",
+  "schemaVersion": "2.1",
+  "terminologyProfile": {
+    "domain": "real-time procedural Three.js asset",
+    "geometryTerms": [
+      "silhouette",
+      "topology",
+      "primitive",
+      "bevel",
+      "chamfer",
+      "taper",
+      "bend",
+      "boolean cut",
+      "edge loop",
+      "surface normal",
+      "displacement"
+    ],
+    "materialTerms": [
+      "albedo",
+      "baseColor",
+      "roughness",
+      "metalness",
+      "normal map",
+      "bump map",
+      "ambient occlusion",
+      "cavity dirt",
+      "edge wear",
+      "clearcoat"
+    ],
+    "lightingTerms": [
+      "key light",
+      "fill light",
+      "rim light",
+      "HDRI/environment reflection",
+      "contact shadow"
+    ],
+    "descriptionRule": "Use measurable 3D graphics terms. Avoid vague words unless they are paired with concrete geometry/material/shader parameters."
+  },
+  "sourceImage": "C:/Users/Administrator/Desktop/jenkins/src/assets/jclogoblack.png",
+  "referenceCamera": {
+    "solved": false,
+    "fovDegrees": 40.0,
+    "aspect": 1.0,
+    "orientation": {
+      "yaw": 0.0,
+      "pitch": 0.0,
+      "roll": 0.0
+    },
+    "positionHint": [
+      0.0,
+      0.0,
+      3.0
+    ],
+    "note": "For likeness work, solve the reference camera (forge/stage1_intake/solve_camera_pose.py) so the review render aligns with the photo and the reference can be projected. Confirm by overlay review."
+  },
+  "suitability": "pass",
+  "scores": {
+    "object_isolation": 3,
+    "silhouette_readability": 3,
+    "depth_inference": 1,
+    "primitive_decomposition": 3,
+    "material_procedurality": 3,
+    "occlusion_risk": 0,
+    "interaction_fit": 3
+  },
+  "preSpecAssessment": {
+    "objectClass": {
+      "primaryType": "flat extruded monogram badge (two-letter 'JC' logotype with an accent chevron)",
+      "primaryDomain": "object",
+      "formLanguage": [
+        "geometric",
+        "hard-edged",
+        "planar profile extruded along the view axis",
+        "high-contrast positive/negative space"
+      ],
+      "structureKind": [
+        "two coplanar extruded solids",
+        "interlocked letterforms with hairline separations",
+        "detached accent mark floating in the J counter gap"
+      ],
+      "motionPotential": [
+        "rigid-body yaw/pitch tilt of the whole badge",
+        "independent z-offset of the chevron (parallax accent)",
+        "per-part material-state swap for light/dark theme"
+      ],
+      "materialFamilies": [
+        "flat-matte dielectric ink",
+        "flat-satin dielectric accent paint"
+      ],
+      "notes": "Vector logotype, not a photographed object. Measured from the source PNG: 99.2% of opaque pixels are exactly two colours (#000000 ink, 40.63% of frame; #e48e00 accent, 0.86%); the remainder is anti-aliasing. There is no shading, gradient, grain or wear anywhere in the reference, so albedo is the only observable channel and every surface response below is inference about a physical extruded badge, not measurement of the reference."
+    },
+    "complexity": {
+      "tier": "simple",
+      "scores": {
+        "silhouetteComplexity": 2,
+        "componentCount": 0,
+        "hierarchyDepth": 0,
+        "repetitionDensity": 0,
+        "materialLayerCount": 1,
+        "localDetailDensity": 1,
+        "occlusionRisk": 0,
+        "actionReadinessNeed": 1
+      },
+      "estimatedCounts": {
+        "macroComponents": 2,
+        "mesoComponents": 0,
+        "microFeatureGroups": 0,
+        "materialLayers": 2,
+        "repetitionSystems": 0
+      },
+      "reasoning": [
+        "Two opaque colour regions only; connected-component labelling of the alpha mask gives exactly two ink islands (18485 px 'J', 17905 px 'C') that touch diagonally, plus one 749 px accent island.",
+        "Every edge is a straight segment or a circular-arc terminal in one plane: the whole subject is a 2D profile with depth, so silhouette complexity is high but volumetric complexity is near zero.",
+        "No occlusion: the reference is an orthographic-equivalent flat elevation, so nothing is hidden except the side walls and back face that extrusion itself defines.",
+        "Held at 'simple' because component count, hierarchy depth and material layer count are all minimal; the detail that matters is boundary placement, which is carried by the traced profiles."
+      ]
+    },
+    "specDepthDecision": {
+      "requiredDepth": "simple",
+      "minimumComponentLevels": [
+        "macro"
+      ],
+      "needsRepetitionSystems": false,
+      "needsMaterialLocalOverrides": true,
+      "needsMultipleReviewViews": true,
+      "needsActionReadyHierarchy": true,
+      "rationale": "Observed structure is two macro solids. Meso/micro levels would be invented, not observed: the hairline slits and rounded counter are boundary features OF the letters profile, not separate parts, so they are authored as localFeatures on the letters component and as vertices in its traced contour."
+    },
+    "unknownsToResolveBeforeImplementation": [],
+    "detailInventory": {
+      "scanMethod": "component-zones",
+      "targetMinDetails": 3,
+      "note": "Zones scanned with forge/stage1_intake/build_detail_inventory.py (component-zones: letters-stem, chevron, letters-top-arm, c-bowl-left). Every detail below is linked to a component localFeature or a material localOverride.",
+      "details": [
+        {
+          "id": "hairline-slits",
+          "kind": "groove",
+          "zone": "letters-top-arm / letters-stem",
+          "description": "Three vertical transparent hairlines cut through the ink at x=158-161 px (4 px wide, y 0-70), x=171-174 px (4 px, y 0-70 and y 140-209) and x=188-191 px (3 px, full height). They are what separates the J stem from the C bowl; losing them merges the two letterforms into one slab.",
+          "measurement": "slit widths 2-4 px at 417 px reference width = 0.010-0.019 model units",
+          "confidence": 0.95,
+          "evidenceRefs": [
+            "full-object",
+            "letters-stem"
+          ],
+          "mapsTo": {
+            "kind": "component-local-feature",
+            "ref": "hairline-slits",
+            "owner": "letters"
+          }
+        },
+        {
+          "id": "j-rounded-counter",
+          "kind": "contour",
+          "zone": "letters-top-arm",
+          "description": "The J counter is a vertical slot with semicircular terminals, open to the background on both flanks between y=70 and y=140 px. Its rounded ends (radius ~12 px) are the single most identity-defining curve in an otherwise orthogonal mark.",
+          "measurement": "slot x 118-142 px, y 30-180 px; terminal radius ~12 px = 0.057 model units",
+          "confidence": 0.93,
+          "evidenceRefs": [
+            "full-object",
+            "letters-top-arm"
+          ],
+          "mapsTo": {
+            "kind": "component-local-feature",
+            "ref": "j-rounded-counter",
+            "owner": "letters"
+          }
+        },
+        {
+          "id": "c-terminal-aperture",
+          "kind": "contour",
+          "zone": "c-bowl-left",
+          "description": "The C opens to the right: its upper and lower terminals are cut back on a near-vertical shear, leaving a right-facing aperture. The bowl interior is a stadium-shaped negative space, not a circle.",
+          "measurement": "aperture spans y 0-30 px and y 175-209 px on the right flank of the C",
+          "confidence": 0.9,
+          "evidenceRefs": [
+            "full-object",
+            "c-bowl-left"
+          ],
+          "mapsTo": {
+            "kind": "component-local-feature",
+            "ref": "c-terminal-aperture",
+            "owner": "letters"
+          }
+        },
+        {
+          "id": "chevron-notch",
+          "kind": "contour",
+          "zone": "chevron",
+          "description": "The accent is a downward-pointing chevron with a concave notch in its top edge and a blunt apex; it reads as a check/tick rather than a triangle.",
+          "measurement": "48 x 27 px bounding box at x 68-115, y 106-132 px",
+          "confidence": 0.92,
+          "evidenceRefs": [
+            "full-object",
+            "chevron"
+          ],
+          "mapsTo": {
+            "kind": "component-local-feature",
+            "ref": "chevron-notch",
+            "owner": "chevron"
+          }
+        },
+        {
+          "id": "extruded-sidewall-break",
+          "kind": "bevel",
+          "zone": "all",
+          "description": "Inferred, not observed: on a physical extruded badge the side walls catch the key light at a different angle to the front cap, so the profile boundary reads as a thin lighter/darker rim. Carried as a material localOverride on the side-wall face set.",
+          "measurement": "wall height = extrusion depth 0.12 model units (letters) / 0.05 (chevron)",
+          "confidence": 0.4,
+          "evidenceRefs": [
+            "full-object"
+          ],
+          "mapsTo": {
+            "kind": "material-local-override",
+            "ref": "sidewall-response",
+            "owner": "ink"
+          }
+        }
+      ]
+    },
+    "anatomy": {
+      "applies": false,
+      "styleHeads": 0.0,
+      "proportions": {
+        "headUnit": 0.0,
+        "torso": 0.0,
+        "legs": 0.0,
+        "shoulderWidth": 0.0,
+        "hipWidth": 0.0
+      },
+      "pose": {
+        "type": "unassessed",
+        "jointAngles": {}
+      },
+      "faceLandmarks": {
+        "eyeLine": 0.0,
+        "eyeSpacing": 0.0,
+        "noseBase": 0.0,
+        "mouthLine": 0.0,
+        "hairline": 0.0
+      },
+      "features": [],
+      "confidence": 0.0,
+      "note": "Only meaningful when objectClass.primaryDomain is character or hybrid. Set applies=true and fill from forge/stage1_intake/extract_landmarks.py. See grimoire/character/reconstruction.md and grimoire/character/likeness_maximization.md."
+    },
+    "sourceImage": "C:/Users/Administrator/Desktop/jenkins/src/assets/jclogoblack.png",
+    "resolvedUnknowns": [
+      {
+        "unknown": "Extrusion depth is not observable from a single flat vector view.",
+        "resolution": "Authored as 0.12 unit for the letters solid and 0.05 unit for the chevron (12% and 5% of the logo height). Recorded in assumptions and risks/depth-unobservable."
+      },
+      {
+        "unknown": "Side-wall and back-face treatment (straight wall vs chamfer) is unobservable.",
+        "resolution": "Straight wall, bevelEnabled:false, so the front elevation stays pixel-faithful to the reference. Recorded in assumptions."
+      },
+      {
+        "unknown": "Whether the chevron is a detached piece or printed on a shared backplate.",
+        "resolution": "Modelled as a detached solid standing 0.045 unit proud of the letter front cap, per the stated badge design intent. Recorded in assumptions and in the chevron/chevron-stand-proud local feature."
+      }
+    ]
+  },
+  "qualityContract": {
+    "qualityBar": "simple",
+    "definitionOfDone": [
+      "The rendered model matches the reference silhouette, primary proportions, visible component hierarchy, material response, and most recognizable local features for the selected fidelity tier."
+    ],
+    "minimumSpecDepth": {
+      "macroComponents": 1,
+      "mesoComponents": 0,
+      "microFeatureGroups": 0,
+      "materialLayers": 1,
+      "repetitionSystems": 0,
+      "reviewViewpoints": 2
+    },
+    "featureGroups": [
+      {
+        "id": "overall-silhouette",
+        "name": "Overall silhouette and proportions",
+        "required": true,
+        "qualityCriteria": [
+          "Bounding shape, dominant curves, negative spaces, and scale relationships are explicitly described."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "model reads as a generic placeholder instead of the reference object",
+          "major proportions are guessed without evidence"
+        ]
+      },
+      {
+        "id": "primary-structure",
+        "name": "Primary structure and hierarchy",
+        "required": true,
+        "qualityCriteria": [
+          "Major parts, joints, seams, contact points, and parent-child relationships are named before code generation."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "large visible parts are merged into one mesh",
+          "component hierarchy is too shallow for the observed complexity"
+        ]
+      },
+      {
+        "id": "attachment-joint-correctness",
+        "name": "Attachment and joint correctness",
+        "required": true,
+        "qualityCriteria": [
+          "Every visible child appendage, branch, limb, handle, connector, tube, cable, horn, wing, leg, or hinged part has an attachment contract with parent socket, localStart/localEnd, contact type, embed/overlap, and gap tolerance."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "child part root floats away from the parent",
+          "branch/limb/tube is centered in space instead of pivoting from its root",
+          "parent-child transform mixes world and local coordinates"
+        ]
+      },
+      {
+        "id": "surface-material-response",
+        "name": "Surface material response",
+        "required": true,
+        "qualityCriteria": [
+          "Albedo zones, roughness, normal/bump/displacement intent, cavity dirt, edge wear, and local overrides are specified where visible.",
+          "Important materials define independent albedo, roughness, height/normal, and AO responses instead of reusing one texture for unrelated PBR channels.",
+          "Surface response is decomposed into macro, meso, and micro frequency bands with scale and amplitude tied to object scale."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "surface looks like flat plastic",
+          "local material variation is missing or not tied to image evidence"
+        ]
+      },
+      {
+        "id": "reference-lookdev",
+        "name": "Reference color, material, and lighting response",
+        "required": true,
+        "qualityCriteria": [
+          "Material-pass names the reference-derived albedo palette, roughness variation, tactile normal/bump/displacement response, and local masks.",
+          "When a source image is available, run reference PBR extraction and require confidence >= 0.7 before treating maps as implementation-ready.",
+          "Lighting-pass names key/fill/rim or environment light, exposure, tone mapping, background, and contact shadow behavior.",
+          "Neutral, grazing-angle, and reference-matched renders prove that surface relief survives relighting and is not painted into albedo."
+        ],
+        "evidenceRefs": [
+          "full-object"
+        ],
+        "failureModes": [
+          "model has acceptable shape but reads as flat shaded or plastic",
+          "colors are a generic average instead of reference-observed local color zones",
+          "lighting is evenly ambient and cannot reproduce the source value range"
+        ]
+      }
+    ],
+    "visualDeltaChecks": [
+      "silhouette and negative-space delta",
+      "component hierarchy depth delta",
+      "repetition density and distribution delta",
+      "material albedo/roughness/normal response delta",
+      "local feature placement and scale delta"
+    ],
+    "antiShallowSpecRules": [
+      "Do not proceed to code if qualityContract.qualityBar is unassessed.",
+      "Do not proceed to code if the spec only contains a root component for a moderate or complex object.",
+      "Do not proceed to code if required featureGroups are not represented by componentTree, materials, or repetitionSystems.",
+      "Do not proceed to code if visible local features are described only in prose and not attached to components/materials/evidenceRefs.",
+      "Do not proceed past structural-pass if attached child parts lack attachment.parentSocket, localStart, localEnd, embedDepth/overlap, and gapTolerance.",
+      "Do not pass material look-dev when albedo is reused as roughness, height, normal, or AO.",
+      "Do not pass material look-dev without macro, meso, and micro surface frequency bands for close-up materials.",
+      "Do not pass reference-fidelity material look-dev from a source image without usable referencePbr maps or an explicit documented limitation.",
+      "Do not patch a spec with extracted PBR maps when extraction confidence is below the target threshold unless the user explicitly accepts lower fidelity.",
+      "Do not place adjacent separate-geometry parts below 0.02 world-unit seam overlap (source: grimoire/build/geometry_patterns.md).",
+      "Do not satisfy raised or recessed relief, fasteners, or grip structure with a map alone when the feature affects form; use geometry or displacement (source: grimoire/build/geometry_patterns.md)."
+    ]
+  },
+  "qualityTargets": {
+    "targetFidelity": 0.7,
+    "mustMatch": [
+      "front-elevation silhouette of both solids (measured, not eyeballed: IoU vs the source mask)",
+      "relative placement and scale of the accent chevron inside the J counter gap",
+      "the three hairline slits and the rounded J counter terminals",
+      "flat albedo of both materials"
+    ],
+    "niceToHave": [
+      "believable side-wall shading at three-quarter angles",
+      "hairline slits still legible at small on-screen sizes"
+    ],
+    "fpsTarget": 60,
+    "reviewViewpoints": [
+      "front",
+      "three-quarter",
+      "side"
+    ]
+  },
+  "selfCorrectLoop": {
+    "enabled": true,
+    "visualAcceptance": {
+      "reviewer": "ai-vision",
+      "threshold": 0.7,
+      "comparisonArtifactRequired": true,
+      "layerScoresRequired": true,
+      "codePixelDiffIsAcceptanceAuthority": false,
+      "scoringRule": "AI vision must inspect a side-by-side reference/render sheet and score the current pass from 0 to 1. Pixel-diff code may assist diagnostics but cannot approve a pass.",
+      "requiredLayerScores": [
+        "silhouetteProportion",
+        "componentStructure",
+        "formDetail",
+        "materialSurface",
+        "lightingCamera"
+      ],
+      "featureReviewPolicy": {
+        "enabled": true,
+        "reviewUnit": "semantic-subsystem",
+        "maxCriticalFeaturesPerPass": 5,
+        "maxImportantFeaturesPerPass": 3,
+        "criticalDefaultThreshold": 0.8,
+        "importantAverageThreshold": 0.65,
+        "adaptiveEscalation": true,
+        "singleImagePairOnly": true,
+        "selectionRule": "Choose only the most visually salient, identity-defining, user-prioritized, or high-risk semantic systems. Group repeated parts instead of reviewing every mesh. AI vision scores every selected feature from the same full reference/render pair."
+      }
+    },
+    "reviewAfterPasses": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "allowedActions": [
+      "continue",
+      "refine-spec",
+      "refine-code",
+      "request-input",
+      "stop"
+    ],
+    "specRefineTriggers": [
+      "missing component",
+      "wrong primitive family",
+      "wrong proportions",
+      "material layer under-specified",
+      "local feature not traceable to viewEvidence",
+      "reference ambiguity discovered during implementation"
+    ],
+    "codeRefineTriggers": [
+      "spec is adequate but generated geometry/material does not match",
+      "browser render differs from reference",
+      "performance budget exceeded",
+      "lighting hides geometry or material response"
+    ],
+    "stopCriteria": [
+      "target fidelity reached or user accepts current approximation",
+      "remaining gaps require new reference images or manual art"
+    ],
+    "screenshotPolicy": {
+      "requiredForPasses": [
+        "blockout",
+        "structural-pass",
+        "form-refinement",
+        "material-pass",
+        "surface-pass",
+        "lighting-pass",
+        "interaction-pass"
+      ],
+      "preferredCapture": "in-app-browser-screenshot",
+      "fallbackCapture": "user-supplied-screenshot-path",
+      "minimumEvidence": "Each visual pass needs a reference image, rendered screenshot, side-by-side comparison sheet, AI vision score, layer scores, and critique before choosing continue.",
+      "reviewPairRule": "Compare the same camera/viewpoint whenever possible; do not judge a front reference against a random render angle.",
+      "acceptanceAuthority": "AI vision review of the comparison sheet. Code-generated pixel similarity is not sufficient evidence."
+    }
+  },
+  "featureReviewTargets": [
+    {
+      "id": "overall-silhouette",
+      "name": "Front-elevation silhouette and proportions",
+      "tier": "critical",
+      "passIds": [
+        "blockout"
+      ],
+      "minimumScore": 0.85,
+      "mustPass": true,
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "evidenceRefs": [
+        "full-object"
+      ]
+    },
+    {
+      "id": "letterform-boundaries",
+      "name": "J counter slot, C aperture and hairline slits",
+      "tier": "critical",
+      "passIds": [
+        "blockout",
+        "structural-pass",
+        "form-refinement"
+      ],
+      "minimumScore": 0.8,
+      "mustPass": true,
+      "componentRefs": [
+        "letters"
+      ],
+      "evidenceRefs": [
+        "letters-top-arm",
+        "letters-stem",
+        "c-bowl-left"
+      ]
+    },
+    {
+      "id": "chevron-placement",
+      "name": "Accent chevron shape, scale and placement in the J gap",
+      "tier": "critical",
+      "passIds": [
+        "blockout",
+        "structural-pass"
+      ],
+      "minimumScore": 0.8,
+      "mustPass": true,
+      "componentRefs": [
+        "chevron"
+      ],
+      "evidenceRefs": [
+        "chevron",
+        "full-object"
+      ]
+    },
+    {
+      "id": "flat-albedo-fidelity",
+      "name": "Two-colour flat albedo response",
+      "tier": "important",
+      "passIds": [
+        "material-pass"
+      ],
+      "minimumScore": 0.7,
+      "mustPass": false,
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "evidenceRefs": [
+        "letters-stem",
+        "chevron"
+      ]
+    },
+    {
+      "id": "extrusion-read",
+      "name": "Depth read at three-quarter angle",
+      "tier": "important",
+      "passIds": [
+        "form-refinement",
+        "lighting-pass"
+      ],
+      "minimumScore": 0.65,
+      "mustPass": false,
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "evidenceRefs": [
+        "full-object"
+      ]
+    }
+  ],
+  "sculptPipeline": {
+    "passGateMode": "locked-sequential",
+    "passOrder": [
+      "blockout",
+      "structural-pass",
+      "form-refinement",
+      "material-pass",
+      "surface-pass",
+      "lighting-pass",
+      "interaction-pass",
+      "optimization-pass"
+    ],
+    "currentPass": "blockout",
+    "completedPasses": [],
+    "lastCompletedPass": "",
+    "blockedReason": "",
+    "nextRequiredEvidence": [
+      "Silhouette reads correctly without materials.",
+      "Quality contract has named all required macro feature groups before code generation.",
+      "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold.",
+      "browser render screenshot from your agent's browser/screenshot tool",
+      "side-by-side reference/render comparison sheet for AI vision review",
+      "banded interior difference vs the reference baseline (forge/stage4_review/interior_difference.py --from/--to per region)",
+      "AI vision score at or above the visual acceptance threshold",
+      "all critical semantic feature scores from the shared image pair at or above their thresholds",
+      "self-correction review appended with action=continue before the next pass"
+    ]
+  },
+  "lookDevTargets": {
+    "qualityPriority": "reference-fidelity",
+    "materialPass": {
+      "albedoPaletteRequired": true,
+      "roughnessVariationRequired": true,
+      "normalOrBumpRequired": true,
+      "localOverridesRequired": true,
+      "minimumTextureResolution": 1024,
+      "preferredTextureResolution": 2048,
+      "independentMapChannels": [
+        "albedo",
+        "roughness",
+        "height",
+        "normal",
+        "ambient-occlusion"
+      ],
+      "requiredSurfaceFrequencyBands": [
+        "macro",
+        "meso",
+        "micro"
+      ],
+      "geometryReliefRequiredWhenSilhouetteAffected": true,
+      "referencePbrExtraction": {
+        "requiredWhenSourceImagePresent": true,
+        "targetThreshold": 0.7,
+        "stopOnLowConfidence": true,
+        "script": "forge/stage1_intake/extract_pbr_evidence.py",
+        "acceptedLimitation": "single-image extraction is reference-derived inference, not exact photogrammetry"
+      },
+      "mustAvoid": [
+        "single flat albedo per material",
+        "uniform roughness",
+        "albedo texture reused as roughness/height/normal/AO",
+        "single-frequency random noise",
+        "plastic-looking smooth bark, stone, cloth, foliage, or aged material",
+        "local color/detail described only in prose without material masks",
+        "claiming exact PBR recovery when confidence is below the target threshold"
+      ]
+    },
+    "lightingPass": {
+      "requiredTerms": [
+        "key light",
+        "fill light",
+        "rim or environment light",
+        "exposure",
+        "tone mapping",
+        "background",
+        "contact shadow"
+      ],
+      "mustAvoid": [
+        "ambient-only lighting",
+        "flat value range",
+        "missing contact shadow",
+        "reference lighting copied without separating material readability"
+      ]
+    },
+    "screenshotReview": [
+      "Compare albedo palette and local color zones.",
+      "Compare roughness/normal/bump response under light.",
+      "Compare cavity dirt, edge wear, stains, moss, scratches, or other local masks.",
+      "Compare key/fill/rim structure, exposure, tone mapping, background, and contact shadows.",
+      "Capture a neutral-light render to verify material readability without reference lighting.",
+      "Capture a grazing-light close-up to expose flat normals, uniform roughness, tiling, and plastic highlights.",
+      "Capture a reference-matched render from the same camera framing as the source."
+    ]
+  },
+  "actionReadiness": {
+    "contract": "Every macro/meso component should be generated as a stable named Object3D pivot node with a mesh child, action metadata, optional sockets, collider proxy, and destruction metadata.",
+    "defaultRigType": "action-ready-static-rig",
+    "rootMotionNode": "root",
+    "requiredComponentFields": [
+      "id",
+      "parent",
+      "transform",
+      "attachment for child appendages, connectors, limbs, tubes, handles, legs, horns, wings, branches, or cables",
+      "actionProfile.animationRole",
+      "actionProfile.pivot",
+      "actionProfile.collider",
+      "actionProfile.destruction"
+    ],
+    "transformChannels": [
+      "translate",
+      "rotate",
+      "scale",
+      "bend",
+      "twist",
+      "detach",
+      "visibility",
+      "material-state"
+    ],
+    "authoringRules": [
+      "Do not collapse independently movable parts into one mesh.",
+      "Put transforms on component pivot groups, not only on raw meshes.",
+      "For attached child parts, put the pivot at the semantic root/socket and build visible geometry from localStart to localEnd.",
+      "Represent hinge, socket, detachable, and breakable intent even when no animation is implemented yet.",
+      "Use simplified collider proxies for runtime physics instead of visual mesh colliders by default."
+    ],
+    "destructionPolicy": {
+      "defaultBreakable": false,
+      "fractureGroupNaming": "Use stable semantic names such as body-shell, left-hinge, glass-panel, branch-segment.",
+      "debrisStrategy": "Prefer detachable component groups and a small number of procedural fragments over random mesh explosion."
+    }
+  },
+  "assumptions": [
+    "Extrusion depth (0.12 unit letters / 0.05 unit chevron) is an authored badge proportion; the single flat reference view cannot supply it.",
+    "Side walls are straight, not chamfered, so the front-on silhouette stays identical to the reference.",
+    "The chevron is a separate physical piece standing proud of the letter face, per the stated design intent; the reference only shows that it is laterally detached.",
+    "Materials are matte-to-satin dielectrics; the reference carries no specular evidence either way."
+  ],
+  "coordinateFrame": {
+    "front": "+Z (the face shown in the reference artwork)",
+    "up": "+Y (reference image up)",
+    "scaleReference": "1.0 model unit = the ink bounding-box height of the reference (209 px). The mark therefore spans x -0.6555..0.6555 and y -0.4952..0.5000, centred on the ink bounding box."
+  },
+  "silhouette": {
+    "boundingShape": "Landscape rectangle 1.311 x 1.000 model units (274 x 209 px of opaque pixels), filled 63.6% by ink and 1.3% by the accent chevron.",
+    "aspectRatios": [
+      {
+        "id": "overall",
+        "value": 1.311,
+        "note": "ink bbox 274 px wide / 209 px tall"
+      },
+      {
+        "id": "letter-j-block",
+        "value": 0.6699,
+        "note": "J island 140 px wide / 209 px tall"
+      },
+      {
+        "id": "letter-c-block",
+        "value": 0.7177,
+        "note": "C island 150 px wide / 209 px tall"
+      },
+      {
+        "id": "chevron",
+        "value": 1.7778,
+        "note": "accent 48 px wide / 27 px tall"
+      }
+    ],
+    "symmetry": "asymmetric; no mirror or rotational symmetry in either axis",
+    "dominantCurves": [
+      "semicircular terminals of the J counter slot (radius ~0.057 unit)",
+      "stadium-shaped inner wall of the C bowl",
+      "sheared straight cut-backs of the C upper and lower terminals"
+    ],
+    "negativeSpaces": [
+      "the J counter slot, open to the background on both flanks between y -0.17 and +0.17",
+      "the C bowl interior, opening rightwards through the terminal aperture",
+      "the rectangular gap on the left flank that holds the chevron (the chevron does not touch ink)",
+      "three vertical hairline slits between the J stem and the C bowl"
+    ],
+    "landmarks": [
+      {
+        "id": "ink-bbox",
+        "imagePx": [
+          68,
+          0,
+          341,
+          208
+        ],
+        "model": [
+          -0.6555,
+          -0.4952,
+          0.6555,
+          0.5
+        ]
+      },
+      {
+        "id": "chevron-bbox",
+        "imagePx": [
+          68,
+          106,
+          115,
+          132
+        ],
+        "model": [
+          -0.6555,
+          -0.1364,
+          -0.4258,
+          -0.0072
+        ]
+      },
+      {
+        "id": "j-c-diagonal-contact",
+        "imagePx": [
+          207,
+          194
+        ],
+        "model": [
+          0.0096,
+          -0.4283
+        ]
+      }
+    ]
+  },
+  "viewEvidence": [
+    {
+      "id": "full-object",
+      "view": "primary",
+      "imageRegion": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1.0,
+        "height": 1.0,
+        "units": "normalized"
+      },
+      "observations": [
+        "Flat vector artwork on a transparent background; 417 x 209 px, 5590 bytes, RGBA8.",
+        "Exactly two opaque colours carry the mark: #000000 (35413 px) and #e48e00 (749 px).",
+        "Reference admission gate: admitted, foregroundCoverage 0.4343, largestComponentFraction 0.9775.",
+        "No lighting cues, no shading, no cast shadow, no perspective convergence: the view is equivalent to an orthographic front elevation."
+      ],
+      "confidence": 0.98
+    },
+    {
+      "id": "letters-stem",
+      "view": "crop",
+      "imageRegion": {
+        "x": 0.3405,
+        "y": 0.35,
+        "width": 0.1055,
+        "height": 0.3,
+        "units": "normalized"
+      },
+      "observations": [
+        "analyze_texture.py: meanLum 0.0, meanSaturation 0.0, gradientStrength 0.0, mottle 0.0, streakRatio 0.0 -- the ink region is perfectly uniform, with zero texture signal."
+      ],
+      "confidence": 0.99
+    },
+    {
+      "id": "chevron",
+      "view": "crop",
+      "imageRegion": {
+        "x": 0.163,
+        "y": 0.507,
+        "width": 0.115,
+        "height": 0.129,
+        "units": "normalized"
+      },
+      "observations": [
+        "analyze_texture.py palette #E5930B/#ECAF4B/#F4D29B; the lighter stops are anti-aliasing against the transparent background, not a gradient in the accent itself.",
+        "mottle 0.013 -- effectively flat."
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "letters-top-arm",
+      "view": "crop",
+      "imageRegion": {
+        "x": 0.17,
+        "y": 0.02,
+        "width": 0.24,
+        "height": 0.28,
+        "units": "normalized"
+      },
+      "observations": [
+        "Hairline slits and the rounded top terminal of the J counter are visible here."
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "c-bowl-left",
+      "view": "crop",
+      "imageRegion": {
+        "x": 0.62,
+        "y": 0.3,
+        "width": 0.1,
+        "height": 0.35,
+        "units": "normalized"
+      },
+      "observations": [
+        "Inner wall of the C bowl; straight vertical run with no thickness modulation."
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "componentTree": [
+    {
+      "id": "letters",
+      "name": "letters",
+      "level": "macro",
+      "role": "body",
+      "importance": 1.0,
+      "confidence": 0.96,
+      "primitive": "extrude",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Decision tree (grimoire/intake/surface_topology.md) step 1: it owns volume, so not material-only. Step 2: not strand-like. Step 3: the silhouette IS the part, not relief on a host. Step 4: YES -- it is a discrete rigid part whose faces are flat and countable (one front cap, one back cap, one straight side wall per profile segment), so assembled-solid is the correct class. It is NOT continuous-sculpt: there is no smoothly-varying volume here, and classifying it so would falsely claim a 3D form that a depth/diagonal ratio of 0.073 cannot deliver. The part is genuinely flat; only the PROFILE is complex, which is why the primitive is 'extrude' rather than 'box'.",
+      "geometryDescriptor": {
+        "topologyIntent": "Boundary-exact extrusion. The profile is a Douglas-Peucker simplification (epsilon 1.2 px) of the traced alpha-mask contour, verified by re-rasterisation at IoU 0.9917 against the source ink mask (146 false-positive / 159 false-negative pixels out of 36390).",
+        "profile2D": {
+          "points": [
+            [
+              -0.6507,
+              0.5
+            ],
+            [
+              -0.2297,
+              0.5
+            ],
+            [
+              -0.2249,
+              0.1842
+            ],
+            [
+              -0.2057,
+              0.1842
+            ],
+            [
+              -0.2057,
+              0.5
+            ],
+            [
+              -0.1627,
+              0.5
+            ],
+            [
+              -0.1627,
+              0.323
+            ],
+            [
+              -0.1435,
+              0.323
+            ],
+            [
+              -0.1435,
+              0.5
+            ],
+            [
+              0.0144,
+              0.5
+            ],
+            [
+              0.0144,
+              0.433
+            ],
+            [
+              0.0,
+              0.4282
+            ],
+            [
+              -0.0526,
+              0.3708
+            ],
+            [
+              -0.0813,
+              0.2847
+            ],
+            [
+              -0.0813,
+              -0.2847
+            ],
+            [
+              -0.0526,
+              -0.3708
+            ],
+            [
+              0.0,
+              -0.4282
+            ],
+            [
+              0.0144,
+              -0.433
+            ],
+            [
+              0.0096,
+              -0.4282
+            ],
+            [
+              -0.0287,
+              -0.39
+            ],
+            [
+              -0.067,
+              -0.3038
+            ],
+            [
+              -0.067,
+              0.3038
+            ],
+            [
+              -0.0574,
+              0.3373
+            ],
+            [
+              -0.0287,
+              0.39
+            ],
+            [
+              0.0383,
+              0.4474
+            ],
+            [
+              0.1435,
+              0.4856
+            ],
+            [
+              0.2632,
+              0.5
+            ],
+            [
+              0.4211,
+              0.4904
+            ],
+            [
+              0.5072,
+              0.4665
+            ],
+            [
+              0.555,
+              0.4426
+            ],
+            [
+              0.622,
+              0.3804
+            ],
+            [
+              0.6555,
+              0.2895
+            ],
+            [
+              0.6555,
+              0.1651
+            ],
+            [
+              0.5359,
+              0.1651
+            ],
+            [
+              0.5359,
+              0.2703
+            ],
+            [
+              0.5215,
+              0.2703
+            ],
+            [
+              0.5215,
+              0.1651
+            ],
+            [
+              0.4258,
+              0.1651
+            ],
+            [
+              0.4258,
+              0.2751
+            ],
+            [
+              0.4115,
+              0.3182
+            ],
+            [
+              0.3923,
+              0.3373
+            ],
+            [
+              0.3397,
+              0.3565
+            ],
+            [
+              0.2584,
+              0.3565
+            ],
+            [
+              0.2153,
+              0.3421
+            ],
+            [
+              0.1818,
+              0.3086
+            ],
+            [
+              0.177,
+              -0.2943
+            ],
+            [
+              0.1962,
+              -0.3278
+            ],
+            [
+              0.2297,
+              -0.3469
+            ],
+            [
+              0.2727,
+              -0.3565
+            ],
+            [
+              0.3301,
+              -0.3565
+            ],
+            [
+              0.3971,
+              -0.3325
+            ],
+            [
+              0.4163,
+              -0.3086
+            ],
+            [
+              0.4258,
+              -0.2751
+            ],
+            [
+              0.4258,
+              -0.1651
+            ],
+            [
+              0.5215,
+              -0.1651
+            ],
+            [
+              0.5215,
+              -0.2847
+            ],
+            [
+              0.5359,
+              -0.2847
+            ],
+            [
+              0.5359,
+              -0.1651
+            ],
+            [
+              0.6555,
+              -0.1651
+            ],
+            [
+              0.6555,
+              -0.2895
+            ],
+            [
+              0.622,
+              -0.3804
+            ],
+            [
+              0.5694,
+              -0.433
+            ],
+            [
+              0.5072,
+              -0.4665
+            ],
+            [
+              0.3876,
+              -0.4952
+            ],
+            [
+              0.201,
+              -0.4952
+            ],
+            [
+              0.067,
+              -0.4617
+            ],
+            [
+              0.0096,
+              -0.4282
+            ],
+            [
+              0.0144,
+              -0.433
+            ],
+            [
+              0.0144,
+              -0.4952
+            ],
+            [
+              -0.1435,
+              -0.4952
+            ],
+            [
+              -0.1435,
+              -0.1746
+            ],
+            [
+              -0.1627,
+              -0.1746
+            ],
+            [
+              -0.1627,
+              -0.4952
+            ],
+            [
+              -0.6555,
+              -0.4952
+            ],
+            [
+              -0.6555,
+              -0.1651
+            ],
+            [
+              -0.4258,
+              -0.1651
+            ],
+            [
+              -0.4258,
+              -0.3134
+            ],
+            [
+              -0.4163,
+              -0.3325
+            ],
+            [
+              -0.3971,
+              -0.3517
+            ],
+            [
+              -0.3589,
+              -0.3565
+            ],
+            [
+              -0.3397,
+              -0.3469
+            ],
+            [
+              -0.311,
+              -0.3086
+            ],
+            [
+              -0.311,
+              0.3134
+            ],
+            [
+              -0.3493,
+              0.3565
+            ],
+            [
+              -0.3923,
+              0.3565
+            ],
+            [
+              -0.4115,
+              0.3421
+            ],
+            [
+              -0.4258,
+              0.3134
+            ],
+            [
+              -0.4258,
+              0.1651
+            ],
+            [
+              -0.6555,
+              0.1651
+            ]
+          ],
+          "depth": 0.12
+        },
+        "profileProvenance": {
+          "method": "alpha-mask boundary trace on the pixel-corner lattice + Douglas-Peucker",
+          "epsilonPx": 1.2,
+          "vertexCount": 89,
+          "sourceMaskPixels": 36390,
+          "measuredIoU": 0.9917,
+          "note": "The 'J' and 'C' islands are 4-connected-separate but touch diagonally at image pixel (207,194); they are spliced into one weakly-simple contour through a zero-width bridge at that contact so the pair extrudes as a single solid. Verified with three r186 ExtrudeGeometry: 83 front-cap triangles, cap area 36364 px^2 vs 36390 mask px (99.93%), zero degenerate triangles."
+        },
+        "edgeTreatment": {
+          "type": "none",
+          "bevelRadius": 0.0,
+          "segments": 1
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry; flat caps and straight side walls"
+      },
+      "parent": null,
+      "attachment": null,
+      "dimensions": {
+        "width": 1.311,
+        "height": 0.9952,
+        "depth": 0.12,
+        "units": "relative",
+        "confidence": 0.96
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.06
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "root",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.9
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Axis-aligned box proxy is exact enough for a flat extruded badge."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "letters",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "ink"
+        }
+      },
+      "material": "ink",
+      "materialLayers": [
+        "ink"
+      ],
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(10, 10, 12, 1.0)",
+        "secondaryAlbedo": "rgba(24, 24, 28, 1.0)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.55,
+        "evidenceRefs": [
+          "full-object",
+          "letters-stem"
+        ],
+        "notes": "Measured albedo is pure #000000. Authored at #0a0a0c so the front cap does not clamp to absolute black under the badge key light and the extruded side walls stay separable from the cap. secondaryAlbedo is the side-wall value, not a second observed colour."
+      },
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "hairline-slits",
+          "kind": "groove",
+          "description": "Three vertical transparent slits separating the J stem from the C bowl.",
+          "realization": "profile vertices (through-cuts in the extruded contour)",
+          "measurementPx": [
+            [
+              158,
+              161
+            ],
+            [
+              171,
+              174
+            ],
+            [
+              188,
+              191
+            ]
+          ],
+          "evidenceRefs": [
+            "letters-stem",
+            "letters-top-arm"
+          ],
+          "confidence": 0.95
+        },
+        {
+          "id": "j-rounded-counter",
+          "kind": "contour",
+          "description": "Vertical slot with semicircular terminals forming the J counter.",
+          "realization": "profile vertices (arc terminals resolved at epsilon 1.2 px)",
+          "measurementPx": [
+            118,
+            30,
+            142,
+            180
+          ],
+          "evidenceRefs": [
+            "letters-top-arm"
+          ],
+          "confidence": 0.93
+        },
+        {
+          "id": "c-terminal-aperture",
+          "kind": "contour",
+          "description": "Right-facing aperture formed by the sheared upper and lower C terminals.",
+          "realization": "profile vertices",
+          "measurementPx": [
+            280,
+            0,
+            341,
+            209
+          ],
+          "evidenceRefs": [
+            "c-bowl-left",
+            "full-object"
+          ],
+          "confidence": 0.9
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.0,
+        "microRoughness": 0.0,
+        "bumpAmplitude": 0.0,
+        "normalPattern": "",
+        "displacementPattern": "",
+        "occlusionPattern": "",
+        "edgeWearPattern": "",
+        "notes": "Deliberately zero. The reference carries no measurable surface signal (letters-stem crop: mottle 0.0, gradientStrength 0.0), so any relief here would be fabricated."
+      },
+      "evidenceRefs": [
+        "full-object",
+        "letters-stem",
+        "letters-top-arm",
+        "c-bowl-left"
+      ],
+      "details": [
+        "hairline-slits",
+        "j-rounded-counter",
+        "c-terminal-aperture"
+      ],
+      "fidelityTier": "reference-matched"
+    },
+    {
+      "id": "chevron",
+      "name": "chevron",
+      "level": "macro",
+      "role": "accent",
+      "importance": 0.8,
+      "confidence": 0.94,
+      "primitive": "extrude",
+      "topologyClass": "assembled-solid",
+      "topologyRationale": "Decision tree (grimoire/intake/surface_topology.md) step 1: it owns volume, so not material-only. Step 2: not strand-like. Step 3: the silhouette IS the part, not relief on a host. Step 4: YES -- it is a discrete rigid part whose faces are flat and countable (one front cap, one back cap, one straight side wall per profile segment), so assembled-solid is the correct class. It is NOT continuous-sculpt: there is no smoothly-varying volume here, and classifying it so would falsely claim a 3D form that a depth/diagonal ratio of 0.073 cannot deliver. The part is genuinely flat; only the PROFILE is complex, which is why the primitive is 'extrude' rather than 'box'.",
+      "geometryDescriptor": {
+        "topologyIntent": "Boundary-exact extrusion of the accent mark, epsilon 0.9 px, re-rasterised at IoU 0.9647 against the 749-pixel source mask.",
+        "profile2D": {
+          "points": [
+            [
+              -0.6459,
+              -0.0072
+            ],
+            [
+              -0.6077,
+              -0.0072
+            ],
+            [
+              -0.6077,
+              -0.012
+            ],
+            [
+              -0.5885,
+              -0.012
+            ],
+            [
+              -0.5502,
+              -0.0311
+            ],
+            [
+              -0.5311,
+              -0.0311
+            ],
+            [
+              -0.5215,
+              -0.0215
+            ],
+            [
+              -0.4737,
+              -0.012
+            ],
+            [
+              -0.4737,
+              -0.0072
+            ],
+            [
+              -0.4354,
+              -0.0072
+            ],
+            [
+              -0.4258,
+              -0.0311
+            ],
+            [
+              -0.4306,
+              -0.0311
+            ],
+            [
+              -0.4354,
+              -0.055
+            ],
+            [
+              -0.445,
+              -0.055
+            ],
+            [
+              -0.488,
+              -0.0981
+            ],
+            [
+              -0.4976,
+              -0.0981
+            ],
+            [
+              -0.5359,
+              -0.1364
+            ],
+            [
+              -0.5455,
+              -0.1364
+            ],
+            [
+              -0.5789,
+              -0.1029
+            ],
+            [
+              -0.5885,
+              -0.1029
+            ],
+            [
+              -0.6029,
+              -0.0837
+            ],
+            [
+              -0.6124,
+              -0.0837
+            ],
+            [
+              -0.6316,
+              -0.0598
+            ],
+            [
+              -0.6459,
+              -0.055
+            ],
+            [
+              -0.6555,
+              -0.0359
+            ],
+            [
+              -0.6555,
+              -0.0167
+            ]
+          ],
+          "depth": 0.05
+        },
+        "profileProvenance": {
+          "method": "alpha-mask boundary trace + Douglas-Peucker",
+          "epsilonPx": 0.9,
+          "vertexCount": 26,
+          "sourceMaskPixels": 749,
+          "measuredIoU": 0.9647,
+          "note": "Lower IoU than the letters solid because the accent is only 749 px, so one-pixel boundary error costs proportionally more. three r186 ExtrudeGeometry: 24 front-cap triangles, cap area 748 px^2 vs 749 mask px."
+        },
+        "edgeTreatment": {
+          "type": "none",
+          "bevelRadius": 0.0,
+          "segments": 1
+        },
+        "deformationStack": [],
+        "uvStrategy": "generated procedural coordinates",
+        "normalStrategy": "vertex normals from generated geometry"
+      },
+      "parent": null,
+      "attachment": null,
+      "dimensions": {
+        "width": 0.2297,
+        "height": 0.1292,
+        "depth": 0.05,
+        "units": "relative",
+        "confidence": 0.94
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.055
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "actionProfile": {
+        "animationRole": "accent",
+        "pivot": {
+          "mode": "explicit",
+          "localPosition": [
+            -0.5407,
+            -0.0718,
+            0.0
+          ],
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "confidence": 0.9
+        },
+        "transformChannels": {
+          "translate": true,
+          "rotate": true,
+          "scale": true,
+          "bend": false,
+          "twist": false,
+          "detach": true,
+          "visibility": true,
+          "materialState": true
+        },
+        "sockets": [],
+        "collider": {
+          "type": "box",
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "isTrigger": false,
+          "notes": "Axis-aligned box proxy is exact enough for a flat extruded badge."
+        },
+        "constraints": [],
+        "destruction": {
+          "breakable": false,
+          "fractureGroup": "chevron",
+          "seamRefs": [],
+          "detachableFragments": [],
+          "breakImpulse": 0.0,
+          "debrisMaterial": "ink"
+        }
+      },
+      "material": "orange",
+      "materialLayers": [
+        "orange"
+      ],
+      "colorMaterialRecipe": {
+        "dominantAlbedo": "rgba(224, 138, 0, 1.0)",
+        "secondaryAlbedo": "rgba(196, 118, 0, 1.0)",
+        "materialClass": "plastic",
+        "materialClassConfidence": 0.55,
+        "evidenceRefs": [
+          "full-object",
+          "chevron"
+        ],
+        "notes": "Measured albedo is #e48e00 (749 px, exact). Authored at #e08a00 per the badge design decision -- a 4/4/0 8-bit shift, below the just-noticeable difference at this size. secondaryAlbedo is the side-wall value."
+      },
+      "deformations": [],
+      "joints": [],
+      "seams": [],
+      "localFeatures": [
+        {
+          "id": "chevron-notch",
+          "kind": "contour",
+          "description": "Concave notch in the top edge and blunt apex; reads as a tick, not a triangle.",
+          "realization": "profile vertices",
+          "measurementPx": [
+            68,
+            106,
+            115,
+            132
+          ],
+          "evidenceRefs": [
+            "chevron"
+          ],
+          "confidence": 0.92
+        },
+        {
+          "id": "chevron-stand-proud",
+          "kind": "contour",
+          "description": "The accent is laterally detached from the ink (nearest ink is 26 px away) and sits 0.045 unit proud of the letter front cap, with 0.005 unit of z overlap behind that plane so no viewing angle shows a floating gap against the badge face.",
+          "realization": "component transform (z offset)",
+          "measurementPx": [
+            68,
+            106,
+            115,
+            132
+          ],
+          "evidenceRefs": [
+            "full-object"
+          ],
+          "confidence": 0.6
+        }
+      ],
+      "surfaceDetail": {
+        "macroRoughness": 0.0,
+        "microRoughness": 0.0,
+        "bumpAmplitude": 0.0,
+        "normalPattern": "",
+        "displacementPattern": "",
+        "occlusionPattern": "",
+        "edgeWearPattern": "",
+        "notes": "Zero for the same reason as the letters solid: chevron crop mottle 0.013."
+      },
+      "evidenceRefs": [
+        "full-object",
+        "chevron"
+      ],
+      "details": [
+        "chevron-notch",
+        "chevron-stand-proud"
+      ],
+      "fidelityTier": "reference-matched"
+    }
+  ],
+  "materials": [
+    {
+      "id": "ink",
+      "name": "Letterform ink",
+      "type": "standard",
+      "shaderModel": "MeshPhysicalMaterial (dielectric, no transmission)",
+      "qualityTier": "hero",
+      "baseColor": "#0a0a0c",
+      "color": "#0a0a0c",
+      "albedo": {
+        "dominant": "#0a0a0c",
+        "secondary": [
+          "#18181c"
+        ],
+        "samplingNotes": "Single flat albedo is the measured truth here, not a shortcut: the source region is one exact 8-bit colour. The secondary value is the authored side-wall shade."
+      },
+      "colorVariation": {
+        "palette": [
+          "#0a0a0c",
+          "#18181c"
+        ],
+        "pattern": "face-set",
+        "amplitude": 0.06,
+        "heightCorrelation": 0.0,
+        "notes": "Variation is per face-set (front cap vs extruded side wall), not procedural noise."
+      },
+      "textureless": {
+        "declared": true,
+        "evidence": [
+          "Crop letters-stem (viewEvidence letters-stem) analysed with forge/stage1_intake/analyze_texture.py: meanLum 0.0, meanSaturation 0.0, gradientStrength 0.0, mottle 0.0, streakRatio 0.0, specularFraction 0.0 -- no texture signal at any frequency.",
+          "Full-image colour histogram: 35413 of 36390 opaque ink pixels are exactly #000000; the remaining 977 are anti-aliasing alpha steps of the same hue. A texture map would have nothing to encode.",
+          "Source is a 5590-byte vector-derived PNG, not a photograph: there is no grain, print or pore to extract, so extract_pbr_evidence.py would report inference about anti-aliasing, not material."
+        ]
+      },
+      "roughness": {
+        "base": 0.62,
+        "variation": 0.05,
+        "map": "none -- constant per face-set; side walls carry the +variation offset",
+        "localResponse": "side walls read marginally rougher than the milled front cap"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.2,
+        "contactShadowBias": 0.3,
+        "notes": "Only real cavities are the hairline slits, the J counter slot and the C bowl; darken where the side walls face each other across those gaps."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#000000"
+      },
+      "localOverrides": [
+        {
+          "id": "sidewall-response",
+          "target": "extruded side walls of the letters solid",
+          "selector": "faces whose normal is perpendicular to +Z",
+          "albedo": "rgba(24, 24, 28, 1.0)",
+          "roughness": 0.67,
+          "strength": 1.0,
+          "evidenceRefs": [
+            "full-object"
+          ],
+          "notes": "Inferred, not measured: the reference is flat and shows no side wall at all. Keeps the extruded rim separable from the front cap under the badge key light."
+        },
+        {
+          "id": "counter-cavity-ao",
+          "target": "J counter slot, C bowl and the three hairline slits",
+          "selector": "side-wall faces bounding an enclosed negative space",
+          "roughness": 0.7,
+          "occlusion": 0.35,
+          "strength": 0.8,
+          "evidenceRefs": [
+            "letters-top-arm",
+            "c-bowl-left"
+          ],
+          "notes": "Contact darkening across the narrow gaps; the only locality the form implies."
+        }
+      ],
+      "shaderNotes": [
+        "MeshPhysicalMaterial with metalness 0, no transmission, no clearcoat.",
+        "Albedo is authored in sRGB and must be tagged as colour data, not linear data (core.shader-mapping-srgb-linear-color-space-assignment).",
+        "No maps of any kind are emitted; see the textureless declaration."
+      ],
+      "notes": "Flat vector source: albedo is the only channel with reference evidence."
+    },
+    {
+      "id": "orange",
+      "name": "Accent chevron paint",
+      "type": "standard",
+      "shaderModel": "MeshPhysicalMaterial (dielectric, no transmission)",
+      "qualityTier": "hero",
+      "baseColor": "#e08a00",
+      "color": "#e08a00",
+      "albedo": {
+        "dominant": "#e08a00",
+        "secondary": [
+          "#c47600"
+        ],
+        "samplingNotes": "Single flat albedo is the measured truth here, not a shortcut: the source region is one exact 8-bit colour. The secondary value is the authored side-wall shade."
+      },
+      "colorVariation": {
+        "palette": [
+          "#e08a00",
+          "#c47600"
+        ],
+        "pattern": "face-set",
+        "amplitude": 0.06,
+        "heightCorrelation": 0.0,
+        "notes": "Variation is per face-set (front cap vs extruded side wall), not procedural noise."
+      },
+      "textureless": {
+        "declared": true,
+        "evidence": [
+          "Crop chevron (viewEvidence chevron) analysed with forge/stage1_intake/analyze_texture.py: mottle 0.013, hueSpread 0.0 -- flat within anti-aliasing tolerance.",
+          "All 749 opaque accent pixels are exactly #e48e00; the lighter palette stops the analyser reports (#ECAF4B, #F4D29B, #FDF9F3) are alpha blends against the transparent background, not finish.",
+          "Vector source with no photographic detail; see the ink material's third evidence line."
+        ]
+      },
+      "roughness": {
+        "base": 0.5,
+        "variation": 0.05,
+        "map": "none -- constant per face-set; side walls carry the +variation offset",
+        "localResponse": "side walls read marginally rougher than the milled front cap"
+      },
+      "metalness": {
+        "base": 0.0,
+        "variation": 0.0
+      },
+      "ambientOcclusion": {
+        "cavityStrength": 0.2,
+        "contactShadowBias": 0.3,
+        "notes": "Only real cavities are the hairline slits, the J counter slot and the C bowl; darken where the side walls face each other across those gaps."
+      },
+      "wear": {
+        "edgeWear": 0.0,
+        "scratches": [],
+        "chips": []
+      },
+      "dirt": {
+        "amount": 0.0,
+        "cavityBias": 0.0,
+        "color": "#000000"
+      },
+      "localOverrides": [
+        {
+          "id": "sidewall-response",
+          "target": "extruded side walls of the chevron solid",
+          "selector": "faces whose normal is perpendicular to +Z",
+          "albedo": "rgba(196, 118, 0, 1.0)",
+          "roughness": 0.55,
+          "strength": 1.0,
+          "evidenceRefs": [
+            "full-object"
+          ],
+          "notes": "Inferred; same rationale as the ink side-wall override."
+        }
+      ],
+      "shaderNotes": [
+        "MeshPhysicalMaterial with metalness 0, no transmission, no clearcoat.",
+        "Albedo is authored in sRGB and must be tagged as colour data, not linear data (core.shader-mapping-srgb-linear-color-space-assignment).",
+        "No maps of any kind are emitted; see the textureless declaration."
+      ],
+      "notes": "Flat vector source: albedo is the only channel with reference evidence."
+    }
+  ],
+  "repetitionSystems": [],
+  "buildPasses": [
+    {
+      "id": "blockout",
+      "goal": "Match macro silhouette and proportions.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "Silhouette reads correctly without materials.",
+        "Quality contract has named all required macro feature groups before code generation.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "structural-pass",
+      "goal": "Build the component hierarchy implied by the pre-spec complexity assessment.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "Macro, meso, and repeated structures meet qualityContract.minimumSpecDepth.",
+        "Parent-child relations, joints, seams, sockets, and contact points are explicit.",
+        "Every attached child appendage/connector has parentSocket, localStart/localEnd, contactType, embedDepth or overlap, and gapTolerance.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "form-refinement",
+      "goal": "Refine shape, deformation, bevels, tapers, curves, asymmetry, and visible local geometry.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "Important visible forms are represented in component geometryDescriptor, deformations, localFeatures, or repetitionSystems.",
+        "Endpoint-based child parts are rooted at their attachment sockets and do not visibly float away from parents.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "material-pass",
+      "goal": "Match material color, roughness, bump, and local variation.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "Reference-derived albedo palette records dominant, secondary, and accent colors per visible material.",
+        "Each important material defines roughness variation and at least one normal/bump/displacement response.",
+        "Local material overrides, dirt/wear/stains/moss/chips/scratches or equivalent masks are tied to evidenceRefs.",
+        "Thin, transparent, reflective, wet, or fibrous materials document alpha/transmission/clearcoat/metalness/fiber response when relevant.",
+        "Generated preview uses procedural albedo/roughness/bump texture or vertex color variation instead of one flat color.",
+        "Generated preview uses independent PBR maps at 1024px or higher for the quality-first tier.",
+        "If source pixels are available, referencePbr extraction passed at confidence >= 0.7 or the pass is stopped/requesting better references.",
+        "Macro, meso, and micro surface frequency bands are visible at the intended review distance without obvious tiling.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "surface-pass",
+      "goal": "Add procedural surface locality such as normal/bump/displacement, AO, dirt, stains, chips, grain, moss, scratches, and wear.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "Every required material feature group has local overrides or surfaceDetail tied to evidenceRefs.",
+        "A grazing-angle close-up proves that normal/height detail breaks highlights naturally and does not read as smooth plastic.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "lighting-pass",
+      "goal": "Make material and form readable under neutral turntable lighting plus optional reference lighting.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "lightingFromPhoto identifies key light direction/color/intensity, fill light, rim or environment light, and ambient color.",
+        "Exposure, tone mapping, background color/gradient, shadow softness, and contact shadow behavior are specified.",
+        "Lighting does not hide geometry/material gaps and screenshots can be compared fairly to the reference.",
+        "Neutral, grazing, and reference-matched lighting checks distinguish material errors from lighting errors.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "interaction-pass",
+      "goal": "Make the model ready for future animation, transformation, physics, or destruction.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "Macro and movable meso components have stable pivot nodes.",
+        "Sockets, collider proxies, and destruction metadata are present for future runtime actions.",
+        "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold."
+      ]
+    },
+    {
+      "id": "optimization-pass",
+      "goal": "Protect runtime performance after visual fidelity is accepted.",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "acceptance": [
+        "Triangle count, draw calls, instancing, LOD strategy, and FPS target are documented or verified.",
+        "Repeated detail is instanced or simplified where possible without breaking silhouette/material believability."
+      ]
+    }
+  ],
+  "visualEvidence": [
+    {
+      "timestamp": "2026-09-16T10:27:24.741358+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.9,
+      "aiVisionScore": 0.9,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.95,
+        "componentStructure": 0.95,
+        "formDetail": 0.88,
+        "materialSurface": 0.9,
+        "lightingCamera": 0.78
+      },
+      "featureReviews": [
+        {
+          "id": "overall-silhouette",
+          "tier": "critical",
+          "score": 0.95,
+          "threshold": 0.85,
+          "passed": true,
+          "notes": "Front elevation overlays the reference almost exactly. Independent measurement: the traced profile re-rasterises against the source ink mask at IoU 0.9917 (146 false-positive / 159 false-negative pixels of 36390); the pipeline's own coarse-grid gate reads 0.8644 against a 0.85 threshold. Aspect-ratio delta 0.0045, scale delta 0.0045."
+        },
+        {
+          "id": "letterform-boundaries",
+          "tier": "critical",
+          "score": 0.88,
+          "threshold": 0.8,
+          "passed": true,
+          "notes": "All three hairline slits, the rounded J counter terminals and the sheared C terminal aperture survive into the render. The slits read marginally thinner than the reference because Douglas-Peucker at epsilon 1.2 px pulls the 2-4 px slit walls in by up to one pixel; the slit count, placement and full/partial height are correct."
+        },
+        {
+          "id": "chevron-placement",
+          "tier": "critical",
+          "score": 0.93,
+          "threshold": 0.8,
+          "passed": true,
+          "notes": "Accent sits in the J counter gap at the measured position and scale (bbox x 68-115, y 106-132 px). Shape IoU 0.9647 against the 749-pixel source mask; the blunt apex and the concave top notch both read. Lower than the letters IoU only because a one-pixel boundary error costs proportionally more on a 749-pixel mark."
+        },
+        {
+          "id": "flat-albedo-fidelity",
+          "tier": "important",
+          "score": 0.92,
+          "threshold": 0.7,
+          "passed": true,
+          "notes": "Two flat dielectric albedos, no maps, matching the measured two-colour reference. Tier-1 per-component colour delta: deltaE 2.26 and 11.65 against the recipe values. The 11.65 is the accent, and is expected: the authored #e08a00 differs from the measured #e48e00, and the render is tone-mapped while the reference is unlit flat artwork."
+        },
+        {
+          "id": "extrusion-read",
+          "tier": "important",
+          "score": 0.78,
+          "threshold": 0.65,
+          "passed": true,
+          "notes": "Three-quarter view shows real side walls and the chevron visibly standing proud; silhouette area at three-quarter is 1.066x the front area, so the form is not a billboard. Marked down because the ink side walls render nearly indistinguishable from the front cap: the spec's ink/sidewall-response local override is descriptive only, and the generator does not realise per-face-set albedo."
+        }
+      ],
+      "referenceScreenshot": "C:/Users/Administrator/Desktop/jenkins/src/assets/jclogoblack.png",
+      "renderScreenshot": "C:/Users/Administrator/Desktop/jenkins/docs/3d/jc-logo/renders/front.png",
+      "comparisonImage": "C:/Users/Administrator/Desktop/jenkins/docs/3d/jc-logo/renders/comparison-front.png",
+      "cameraView": "front elevation, orthographic-equivalent, framed identically to the reference (417x209 at 209 px per model unit)",
+      "notes": "Capture method is a CPU rasteriser over the real generated THREE geometry (3x supersampled, transparent background to match the reference alpha), not a GPU render of MeshPhysicalMaterial. Specular, clearcoat and image-based lighting are therefore not evaluated.",
+      "aiVisionNotes": "Side-by-side inspection of comparison-front.png: the J counter slot, all three hairline slits, the C bowl curvature, the sheared C terminals and the accent chevron all land on the reference. The render's slits are marginally thinner. No structural difference is visible at the reference viewpoint."
+    }
+  ],
+  "reviewHistory": [
+    {
+      "timestamp": "2026-09-16T10:27:24.741358+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.9,
+      "aiVisionScore": 0.9,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.95,
+        "componentStructure": 0.95,
+        "formDetail": 0.88,
+        "materialSurface": 0.9,
+        "lightingCamera": 0.78
+      },
+      "featureReviews": [
+        {
+          "id": "overall-silhouette",
+          "tier": "critical",
+          "score": 0.95,
+          "threshold": 0.85,
+          "passed": true,
+          "notes": "Front elevation overlays the reference almost exactly. Independent measurement: the traced profile re-rasterises against the source ink mask at IoU 0.9917 (146 false-positive / 159 false-negative pixels of 36390); the pipeline's own coarse-grid gate reads 0.8644 against a 0.85 threshold. Aspect-ratio delta 0.0045, scale delta 0.0045."
+        },
+        {
+          "id": "letterform-boundaries",
+          "tier": "critical",
+          "score": 0.88,
+          "threshold": 0.8,
+          "passed": true,
+          "notes": "All three hairline slits, the rounded J counter terminals and the sheared C terminal aperture survive into the render. The slits read marginally thinner than the reference because Douglas-Peucker at epsilon 1.2 px pulls the 2-4 px slit walls in by up to one pixel; the slit count, placement and full/partial height are correct."
+        },
+        {
+          "id": "chevron-placement",
+          "tier": "critical",
+          "score": 0.93,
+          "threshold": 0.8,
+          "passed": true,
+          "notes": "Accent sits in the J counter gap at the measured position and scale (bbox x 68-115, y 106-132 px). Shape IoU 0.9647 against the 749-pixel source mask; the blunt apex and the concave top notch both read. Lower than the letters IoU only because a one-pixel boundary error costs proportionally more on a 749-pixel mark."
+        },
+        {
+          "id": "flat-albedo-fidelity",
+          "tier": "important",
+          "score": 0.92,
+          "threshold": 0.7,
+          "passed": true,
+          "notes": "Two flat dielectric albedos, no maps, matching the measured two-colour reference. Tier-1 per-component colour delta: deltaE 2.26 and 11.65 against the recipe values. The 11.65 is the accent, and is expected: the authored #e08a00 differs from the measured #e48e00, and the render is tone-mapped while the reference is unlit flat artwork."
+        },
+        {
+          "id": "extrusion-read",
+          "tier": "important",
+          "score": 0.78,
+          "threshold": 0.65,
+          "passed": true,
+          "notes": "Three-quarter view shows real side walls and the chevron visibly standing proud; silhouette area at three-quarter is 1.066x the front area, so the form is not a billboard. Marked down because the ink side walls render nearly indistinguishable from the front cap: the spec's ink/sidewall-response local override is descriptive only, and the generator does not realise per-face-set albedo."
+        }
+      ],
+      "action": "request-input",
+      "summary": "Blockout matches the reference front elevation on every measured axis, but the capture is a deterministic CPU rasterisation of the generated geometry, not the browser/WebGL screenshot the pass contract requires, so the pass is evidence-backed rather than browser-locked.",
+      "matched": [
+        "front-elevation silhouette (profile-vs-mask IoU 0.9917",
+        "gate grid IoU 0.8644 >= 0.85)",
+        "three hairline slits, rounded J counter terminals and sheared C aperture all present",
+        "chevron shape, scale and placement in the J counter gap (IoU 0.9647)",
+        "two flat dielectric albedos with no maps, matching the two-colour reference",
+        "444 triangles, 2 draw calls, 0 textures",
+        "both specified components built as named selectable meshes (check_part_coverage 2/2, 0 errors)"
+      ],
+      "mismatches": [
+        "no browser/WebGL capture available in this environment",
+        "renders are CPU-rasterised (Lambert + ambient + rim, ACES-ish tonemap) from the real generated geometry",
+        "turntable_gate at its default collapse ratio reports the 90/270 silhouette as degenerate - correct behaviour for a genuinely flat subject (depth/diagonal 0.073), and it passes at a collapse ratio of 0.12 justified by that measured ratio",
+        "ink side walls render nearly indistinguishable from the front cap because the spec's ink/sidewall-response local override is descriptive and the generator emits one material per component",
+        "hairline slits read ~1 px thinner than the reference from Douglas-Peucker at epsilon 1.2 px"
+      ],
+      "specFixes": [
+        "none - strict-quality passes and every gate finding is a property of the subject or the environment, not of the spec"
+      ],
+      "codeFixes": [
+        "none at blockout",
+        "if a per-face-set side-wall albedo is wanted later it needs vertex colours or a second material, which is a form-refinement/material-pass concern"
+      ],
+      "evidence": [
+        "docs/3d/jc-logo/renders/front.png",
+        "docs/3d/jc-logo/renders/front-map-stripped.png",
+        "docs/3d/jc-logo/renders/comparison-front.png",
+        "docs/3d/jc-logo/renders/three-quarter.png",
+        "docs/3d/jc-logo/renders/orbit-000.png",
+        "docs/3d/jc-logo/renders/orbit-090.png",
+        "docs/3d/jc-logo/renders/orbit-180.png",
+        "docs/3d/jc-logo/renders/orbit-270.png",
+        "docs/3d/jc-logo/renders/turntable.json",
+        "docs/3d/jc-logo/renders/turntable-flat-subject.json",
+        "docs/3d/jc-logo/renders/part-coverage.json",
+        "docs/3d/jc-logo/renders/parts-manifest.json"
+      ],
+      "mapStrippedRender": "C:/Users/Administrator/Desktop/jenkins/docs/3d/jc-logo/renders/front-map-stripped.png",
+      "reviewViewpoints": [
+        "front",
+        "three-quarter",
+        "side"
+      ],
+      "visualEvidence": {
+        "referenceScreenshot": "C:/Users/Administrator/Desktop/jenkins/src/assets/jclogoblack.png",
+        "renderScreenshot": "C:/Users/Administrator/Desktop/jenkins/docs/3d/jc-logo/renders/front.png",
+        "comparisonImage": "C:/Users/Administrator/Desktop/jenkins/docs/3d/jc-logo/renders/comparison-front.png",
+        "cameraView": "front elevation, orthographic-equivalent, framed identically to the reference (417x209 at 209 px per model unit)",
+        "notes": "Capture method is a CPU rasteriser over the real generated THREE geometry (3x supersampled, transparent background to match the reference alpha), not a GPU render of MeshPhysicalMaterial. Specular, clearcoat and image-based lighting are therefore not evaluated.",
+        "aiVisionNotes": "Side-by-side inspection of comparison-front.png: the J counter slot, all three hairline slits, the C bowl curvature, the sheared C terminals and the accent chevron all land on the reference. The render's slits are marginally thinner. No structural difference is visible at the reference viewpoint."
+      }
+    }
+  ],
+  "lodPlan": [
+    {
+      "tier": "near",
+      "distance": 0,
+      "strategy": "full 89-vertex letters profile and 26-vertex chevron profile, depth 0.12/0.05"
+    },
+    {
+      "tier": "far",
+      "distance": 12,
+      "strategy": "no separate tier required -- 444 triangles is already below any sensible far budget"
+    }
+  ],
+  "performanceBudget": {
+    "qualityPriority": "reference-fidelity",
+    "targetTriangles": 6000,
+    "maxDrawCalls": 2,
+    "textureSize": 0,
+    "fpsTarget": 60,
+    "optimizationPolicy": "Already minimal: 444 triangles, 2 draw calls, 0 textures. The only remaining lever is profile vertex count, and reducing it below the current epsilon costs measurable silhouette IoU."
+  },
+  "lightingFromPhoto": [
+    {
+      "id": "key",
+      "role": "key light",
+      "type": "directional",
+      "direction": [
+        -0.55,
+        0.62,
+        0.56
+      ],
+      "intensity": 2.5,
+      "color": "#ffffff",
+      "notes": "Not derived from the reference -- the artwork is unlit flat vector, so there is no photographic lighting to recover. Authored upper-left key so the extruded side walls on the right and lower flanks read as depth."
+    },
+    {
+      "id": "fill",
+      "role": "fill light",
+      "type": "ambient",
+      "intensity": 1.2,
+      "color": "#ffffff",
+      "notes": "Lifts the shadowed side walls so the front silhouette still matches the flat reference."
+    },
+    {
+      "id": "rim",
+      "role": "rim / environment light",
+      "type": "directional",
+      "direction": [
+        0.7,
+        -0.2,
+        -0.65
+      ],
+      "intensity": 0.6,
+      "color": "#ffffff",
+      "notes": "Separates the badge from a dark backdrop in the dark theme."
+    },
+    {
+      "id": "exposure-and-tone",
+      "role": "exposure and tone mapping",
+      "toneMapping": "ACESFilmic",
+      "exposure": 1.0,
+      "outputColorSpace": "SRGB",
+      "background": "transparent (alpha) -- the host page supplies the backdrop",
+      "notes": "ACES filmic tone mapping at exposure 1.0 keeps the #0a0a0c cap off absolute black without lifting the accent hue."
+    },
+    {
+      "id": "contact-shadow",
+      "role": "contact shadow / ambient occlusion",
+      "strategy": "No ground plane; contact shadow behaviour is limited to ambient occlusion across the hairline slits, the J counter and the C bowl.",
+      "notes": "The badge floats in the hero, so a ground shadow would be fabricated. Contact darkening is handled by the counter-cavity-ao local override on the ink material."
+    }
+  ],
+  "proceduralStrategy": [
+    "THREE.Shape + ExtrudeGeometry with bevelEnabled:false and steps:1 -- the only construction that keeps the traced silhouette exact.",
+    "Profiles are authored as absolute model-unit vertex lists and the component transform.scale is pinned to [1,1,1], so the generator's dimension-scaling path cannot distort the letterforms.",
+    "No textures, no canvas-generated maps, no external art: two flat dielectric materials only.",
+    "Deterministic by construction -- there is no procedural noise anywhere, so no seed is required.",
+    "Chevron depth and z-offset are the only authored (unobservable) numbers; both are declared in preSpecAssessment.unknownsToResolveBeforeImplementation.",
+    "Triangle count is fixed at 444 (letters 344 + chevron 100), measured with three r186."
+  ],
+  "animationAnchors": [
+    {
+      "id": "badge-tilt",
+      "componentRefs": [
+        "letters",
+        "chevron"
+      ],
+      "channel": "rotate",
+      "notes": "Pointer-parallax yaw/pitch of the whole badge about its centre."
+    },
+    {
+      "id": "chevron-parallax",
+      "componentRefs": [
+        "chevron"
+      ],
+      "channel": "translate",
+      "notes": "Independent z push of the accent for a depth cue on hover."
+    },
+    {
+      "id": "theme-swap",
+      "componentRefs": [
+        "letters"
+      ],
+      "channel": "materialState",
+      "notes": "Ink albedo swaps between #0a0a0c (light theme) and a near-white value (dark theme)."
+    }
+  ],
+  "destructionAnchors": [
+    {
+      "id": "letters",
+      "componentRefs": [
+        "letters"
+      ],
+      "breakable": false,
+      "notes": "Logotype integrity is the point of the asset; never fracture."
+    },
+    {
+      "id": "chevron",
+      "componentRefs": [
+        "chevron"
+      ],
+      "breakable": false,
+      "notes": "Detachable as a whole for transitions, but not fracturable."
+    }
+  ],
+  "risks": [
+    {
+      "id": "depth-unobservable",
+      "severity": "medium",
+      "description": "Extrusion depth and side-wall treatment are authored, not measured. A different depth changes the three-quarter read but not the front elevation.",
+      "mitigation": "Depth lives in one spec field per component; Task 3 can retune without retracing."
+    },
+    {
+      "id": "hairline-legibility",
+      "severity": "medium",
+      "description": "The three hairline slits are 0.010-0.019 unit wide. Below roughly 120 px of on-screen badge height they fall under one pixel and alias.",
+      "mitigation": "Render with antialias:true and pixelRatio >= 2; do not thin them further."
+    },
+    {
+      "id": "bridge-vertex",
+      "severity": "low",
+      "description": "The letters profile is weakly simple: it passes through the J/C diagonal contact twice via a zero-width bridge. A tessellator less robust than earcut could emit a sliver there.",
+      "mitigation": "Verified with the project's own three r186: 83 cap triangles, zero degenerate, cap area within 0.07% of the mask. Re-verify if the three version changes."
+    },
+    {
+      "id": "no-browser-render",
+      "severity": "medium",
+      "description": "No browser/WebGL capture was available in this environment, so the pipeline's AI-vision pass gate could not be closed on a real GPU render.",
+      "mitigation": "Deterministic CPU rasterisation of the generated geometry was used for the review sheets; a browser capture is still owed before the pass is claimed locked."
+    }
+  ],
+  "localSpecSearch": {
+    "collection": "core_3d",
+    "query": "JcLogo extruded shape bevel geometry flat emblem letterform silhouette srgb color space material",
+    "index": {
+      "status": "hit",
+      "reason": "current",
+      "fingerprint": "06f0b2ece2935e441653f5c3533f91b3a4d6163f2aec4267559d7d8419bdd040"
+    },
+    "matches": [
+      {
+        "record_id": "core.shader-mapping-srgb-linear-color-space-assignment",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.rendering_shader_mapping[12]",
+        "score": 14.174397433535,
+        "snippets": [
+          "The mandatory Three.js r152+ rule for tagging each texture as human-viewable color vs. mathematical data before assigning it to a material slot. Quy tắc bắt buộc từ Three.js r152+ để gán nhãn mỗi texture là màu để người xem hay dữ liệu toán học ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.rendering_shader_mapping[12]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      },
+      {
+        "record_id": "core.pbr-color-space-srgb-vs-linearnocolorspace",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.material_pbr[11]",
+        "score": 12.876364913909,
+        "snippets": [
+          "Distinction between human-viewable color data (needs gamma/sRGB) and mathematical data maps (must stay linear/uncorrected). Phân biệt giữa dữ liệu màu để người xem (cần gamma/sRGB) và các bản đồ dữ liệu toán học (phải giữ tuyến tính/không hiệu ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.material_pbr[11]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      },
+      {
+        "record_id": "core.shader-mapping-extrudegeometry-custom-bladesilhouette-profiles",
+        "file_path": "docs/raw/img2threejs-skill-dataset.json",
+        "heading": null,
+        "key_path": "categories.rendering_shader_mapping[7]",
+        "score": 9.61914589349,
+        "snippets": [
+          "Maps to any part defined by a unique 2D silhouette pushed into 3D depth with a bevel. Ánh xạ tới bất kỳ bộ phận nào được định nghĩa bằng đường viền 2D độc nhất, đẩy vào chiều sâu 3D với cạnh vát. Recognition cues: Blade shape that doesn't match ..."
+        ],
+        "source_refs": [
+          {
+            "path": "docs/raw/img2threejs-skill-dataset.json",
+            "heading": null,
+            "key_path": "categories.rendering_shader_mapping[7]"
+          }
+        ],
+        "evidence_refs": [
+          {
+            "kind": "source",
+            "ref": "docs/raw/img2threejs-skill-dataset.json",
+            "note": "img2threejs NotebookLM research distillation"
+          }
+        ]
+      }
+    ]
+  },
+  "tier1Results": [
+    {
+      "passed": false,
+      "checks": {
+        "silhouetteIoU": 0.8494,
+        "aspectRatioDelta": 0.0045,
+        "scaleDelta": 0.0045,
+        "bilateralSymmetryError": 0.1507,
+        "colorDelta": {
+          "checked": 2,
+          "maxDeltaE": 11.65,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.65
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [
+        "silhouette IoU 0.849 is below threshold 0.85",
+        "blockout requires --map-stripped-render evidence"
+      ],
+      "maskWarnings": [
+        "reference: 2.0% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured",
+        "render: 2.0% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured"
+      ],
+      "renderHash": "7f2008d7dae786f7",
+      "passId": "blockout"
+    },
+    {
+      "passed": false,
+      "checks": {
+        "silhouetteIoU": 0.8494,
+        "aspectRatioDelta": 0.0045,
+        "scaleDelta": 0.0045,
+        "bilateralSymmetryError": 0.1507,
+        "colorDelta": {
+          "checked": 2,
+          "maxDeltaE": 11.65,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.65
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [
+        "silhouette IoU 0.849 is below threshold 0.85"
+      ],
+      "maskWarnings": [
+        "reference: 2.0% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured",
+        "render: 2.0% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured"
+      ],
+      "renderHash": "d2c120e1ad4dad83",
+      "passId": "blockout",
+      "mapStrippedRender": "C:\\Users\\Administrator\\Desktop\\jenkins\\docs\\3d\\jc-logo\\renders\\front-map-stripped.png"
+    },
+    {
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8644,
+        "aspectRatioDelta": 0.0045,
+        "scaleDelta": 0.0045,
+        "bilateralSymmetryError": 0.1432,
+        "colorDelta": {
+          "checked": 2,
+          "maxDeltaE": 11.65,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 2.26
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.65
+            }
+          ],
+          "gated": false
+        }
+      },
+      "failures": [],
+      "maskWarnings": [
+        "reference: 2.0% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured",
+        "render: 2.1% of foreground cells lie outside the largest connected blob and were excluded from the bounding box; if the subject really has separated parts in this projection, they are not being measured"
+      ],
+      "renderHash": "7bb43b4ab95d3ca7",
+      "passId": "blockout",
+      "mapStrippedRender": "C:\\Users\\Administrator\\Desktop\\jenkins\\docs\\3d\\jc-logo\\renders\\front-map-stripped.png"
+    }
+  ]
+}

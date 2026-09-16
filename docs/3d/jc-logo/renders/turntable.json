@@ -1,0 +1,98 @@
+{
+  "angles": [
+    {
+      "azimuth": 0.0,
+      "path": "C:\\Users\\Administrator\\Desktop\\jenkins\\docs\\3d\\jc-logo\\renders\\orbit-000.png",
+      "isReference": true,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 977,
+      "interiorHoleFraction": 0.009801659359731934,
+      "largestHolePixelCount": 959,
+      "largestHoleBBox": {
+        "x": 233,
+        "y": 128,
+        "width": 16,
+        "height": 264
+      },
+      "areaFraction": 0.3686279585798817,
+      "ratio": 1.0,
+      "degenerate": false
+    },
+    {
+      "azimuth": 90.0,
+      "path": "C:\\Users\\Administrator\\Desktop\\jenkins\\docs\\3d\\jc-logo\\renders\\orbit-090.png",
+      "isReference": false,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 0,
+      "interiorHoleFraction": 0.0,
+      "largestHolePixelCount": 0,
+      "largestHoleBBox": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "areaFraction": 0.055151627218934914,
+      "ratio": 0.14961325080008428,
+      "degenerate": true
+    },
+    {
+      "azimuth": 180.0,
+      "path": "C:\\Users\\Administrator\\Desktop\\jenkins\\docs\\3d\\jc-logo\\renders\\orbit-180.png",
+      "isReference": false,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 977,
+      "interiorHoleFraction": 0.009801659359731934,
+      "largestHolePixelCount": 959,
+      "largestHoleBBox": {
+        "x": 271,
+        "y": 128,
+        "width": 16,
+        "height": 264
+      },
+      "areaFraction": 0.3686279585798817,
+      "ratio": 1.0,
+      "degenerate": false
+    },
+    {
+      "azimuth": 270.0,
+      "path": "C:\\Users\\Administrator\\Desktop\\jenkins\\docs\\3d\\jc-logo\\renders\\orbit-270.png",
+      "isReference": false,
+      "segmented": true,
+      "holed": false,
+      "interiorHolePixelCount": 0,
+      "interiorHoleFraction": 0.0,
+      "largestHolePixelCount": 0,
+      "largestHoleBBox": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      },
+      "areaFraction": 0.055151627218934914,
+      "ratio": 0.14961325080008428,
+      "degenerate": true
+    }
+  ],
+  "referenceAzimuth": 0.0,
+  "requiredAzimuths": [
+    0.0,
+    90.0,
+    180.0,
+    270.0
+  ],
+  "azimuthTolerance": 5.0,
+  "missingAzimuths": [],
+  "covered": true,
+  "collapseRatio": 0.15,
+  "degenerate": true,
+  "allowHoles": false,
+  "holed": false,
+  "unsegmentedAzimuths": [],
+  "segmentationReliable": true,
+  "passed": false,
+  "note": "deterministic; zero token; mandatory azimuth coverage catches off-axis-only defects, interior-hole flood fill catches silhouette-enclosed background that an area-only check misses"
+}
