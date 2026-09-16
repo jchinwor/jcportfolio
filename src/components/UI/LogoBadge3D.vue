@@ -76,6 +76,7 @@ onMounted(() => {
     return;
   }
 
+  pageVisible = document.visibilityState === 'visible';
   observer = new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
     schedule();
