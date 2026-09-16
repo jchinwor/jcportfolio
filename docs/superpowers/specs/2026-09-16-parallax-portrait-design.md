@@ -1,4 +1,4 @@
-> Implementation note (2026-09-16): the portrait ships as one image layer at +50px, scale-compensated and masked to the disc silhouette, instead of the separate clipped head layer described below (the two-layer version showed a seam under tilt). Chip parallax factors shipped at 0.8 / 0.6 / 1.0 instead of 1.6 / 1.2 / 2.0. The sheen sits in front of the portrait at +60px and moves via transform.
+> Implementation note (2026-09-16): the portrait ships as one image layer at +50px, scale-compensated and masked to the disc silhouette, instead of the separate clipped head layer described below (the two-layer version showed a seam under tilt). Chip parallax factors shipped at 0.8 / 0.6 / 1.0 instead of 1.6 / 1.2 / 2.0. The sheen sits in front of the portrait at +60px and moves via transform. The portrait column gets 24px of right padding between 1024px and 1279px (`lg:pr-6 xl:pr-0`) so the magnified Figma chip stays inside the hero's clipped edge where the container is fluid; at 1280px and up the layout is unchanged.
 
 # Layered depth parallax for the hero portrait
 

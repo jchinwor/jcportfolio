@@ -1,7 +1,7 @@
 <template>
   <!-- Portrait rising out of an aurora orb. Every layer sits at its own depth in a perspective
        stack; the script tilts the stack toward the cursor and drifts it when idle. -->
-  <div ref="root" class="flex justify-center pt-10 lg:col-span-5 lg:justify-end lg:pr-6 lg:pt-0">
+  <div ref="root" class="flex justify-center pt-10 lg:col-span-5 lg:justify-end lg:pr-6 lg:pt-0 xl:pr-0">
     <div class="stage">
       <div ref="stack" class="stack relative w-64 sm:w-72 lg:w-80 xl:w-[22rem]">
         <!-- Glow -->
@@ -234,7 +234,11 @@ function onPointerLeave() {
   inset: -50%;
   background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.16) 50%, transparent 60%);
   transform: translate(calc(var(--ty) * -1.2%), calc(var(--tx) * 1.2%));
-  will-change: transform;
+}
+@media not (prefers-reduced-motion: reduce) {
+  .sheen::before {
+    will-change: transform;
+  }
 }
 :root:not(.dark) .sheen {
   opacity: 0.35;
