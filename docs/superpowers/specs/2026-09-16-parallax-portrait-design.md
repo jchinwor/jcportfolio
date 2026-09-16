@@ -1,3 +1,5 @@
+> Implementation note (2026-09-16): the portrait ships as one image layer at +50px, scale-compensated and masked to the disc silhouette, instead of the separate clipped head layer described below (the two-layer version showed a seam under tilt). Chip parallax factors shipped at 0.8 / 0.6 / 1.0 instead of 1.6 / 1.2 / 2.0. The sheen sits in front of the portrait at +60px and moves via transform.
+
 # Layered depth parallax for the hero portrait
 
 Date: 2026-09-16

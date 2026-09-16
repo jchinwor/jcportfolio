@@ -1,3 +1,5 @@
+> Implementation note (2026-09-16): Task 3 shipped with a single masked portrait layer, chip parallax 0.8 / 0.6 / 1.0, and a transform-driven sheen in front of the portrait; see the note at the top of the spec.
+
 # Parallax Portrait Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
