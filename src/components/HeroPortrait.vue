@@ -3,7 +3,7 @@
        stack; the script tilts the stack toward the cursor and drifts it when idle. -->
   <div ref="root" class="flex justify-center pt-10 lg:col-span-5 lg:justify-end lg:pt-0">
     <div class="stage">
-      <div ref="stack" class="stack portrait relative w-64 sm:w-72 lg:w-80 xl:w-[22rem]">
+      <div ref="stack" class="stack relative w-64 sm:w-72 lg:w-80 xl:w-[22rem]">
         <!-- Glow -->
         <div class="layer glow absolute -inset-12 rounded-full bg-accent/20 blur-3xl dark:bg-accent/15" aria-hidden="true"></div>
 
@@ -17,8 +17,6 @@
             style="background: radial-gradient(circle at 50% 115%, color-mix(in oklab, var(--accent-2) 85%, transparent), color-mix(in oklab, var(--accent) 35%, transparent) 42%, transparent 68%)"
             aria-hidden="true"
           ></div>
-          <!-- Sheen: slides opposite to the tilt -->
-          <div class="sheen absolute inset-0 rounded-full" aria-hidden="true"></div>
         </div>
 
         <!-- Portrait: one cutout with a rounded bottom edge, standing in front of the disc -->
@@ -26,8 +24,11 @@
           src="@/assets/jenkinsv5.png"
           alt="Portrait of Jenkins Chinwor"
           fetchpriority="high"
-          class="layer figure portrait-img pointer-events-none absolute inset-x-0 bottom-0 w-full"
+          class="figure portrait-img pointer-events-none absolute inset-x-0 bottom-0 w-full"
         />
+
+        <!-- Sheen: a soft highlight in front of the portrait that slides against the tilt -->
+        <div class="layer sheen pointer-events-none absolute inset-0 overflow-hidden rounded-full" aria-hidden="true"></div>
 
         <!-- Floating tool chips: the orbit wrapper carries depth and parallax, the chip keeps its float -->
         <div class="orbit absolute -left-3 top-6 sm:-left-6" style="--z: 90px; --p: 0.8">
@@ -63,7 +64,10 @@ const stack = ref(null);
 
 let hero = null;
 let observer = null;
+let reduceQuery = null;
 let frame = 0;
+let coarse = false;
+let running = false;
 let hovering = false;
 let visible = false;
 let pageVisible = true;
@@ -71,8 +75,26 @@ let target = { tx: 0, ty: 0 };
 let current = { tx: 0, ty: 0 };
 
 onMounted(() => {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  coarse = window.matchMedia("(pointer: coarse)").matches;
+  reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  reduceQuery.addEventListener("change", onReduceChange);
+  if (!reduceQuery.matches) start();
+});
 
+onBeforeUnmount(() => {
+  stop();
+  reduceQuery?.removeEventListener("change", onReduceChange);
+});
+
+// Reduced motion can flip while the page is open, so the whole rig starts and stops live.
+function onReduceChange(event) {
+  if (event.matches) stop();
+  else start();
+}
+
+function start() {
+  if (running || !root.value) return;
+  running = true;
   pageVisible = document.visibilityState === "visible";
   observer = new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
@@ -81,20 +103,30 @@ onMounted(() => {
   observer.observe(root.value);
   document.addEventListener("visibilitychange", onVisibility);
 
-  if (!window.matchMedia("(pointer: coarse)").matches) {
-    hero = root.value.closest("section");
+  if (!coarse) {
+    hero = root.value.closest("section") ?? root.value.parentElement;
     hero?.addEventListener("pointermove", onPointerMove);
     hero?.addEventListener("pointerleave", onPointerLeave);
   }
-});
+}
 
-onBeforeUnmount(() => {
+function stop() {
+  running = false;
   cancelAnimationFrame(frame);
+  frame = 0;
   observer?.disconnect();
+  observer = null;
   document.removeEventListener("visibilitychange", onVisibility);
   hero?.removeEventListener("pointermove", onPointerMove);
   hero?.removeEventListener("pointerleave", onPointerLeave);
-});
+  hero = null;
+  hovering = false;
+  visible = false;
+  target = { tx: 0, ty: 0 };
+  current = { tx: 0, ty: 0 };
+  stack.value?.style.setProperty("--tx", "0");
+  stack.value?.style.setProperty("--ty", "0");
+}
 
 function onVisibility() {
   pageVisible = document.visibilityState === "visible";
@@ -103,7 +135,12 @@ function onVisibility() {
 
 function schedule() {
   cancelAnimationFrame(frame);
-  if (visible && pageVisible) frame = requestAnimationFrame(tick);
+  if (running && visible && pageVisible) {
+    frame = requestAnimationFrame(tick);
+  } else {
+    frame = 0;
+    hovering = false;
+  }
 }
 
 function tick(now) {
@@ -113,8 +150,8 @@ function tick(now) {
   }
   current.tx += (target.tx - current.tx) * EASE;
   current.ty += (target.ty - current.ty) * EASE;
-  stack.value.style.setProperty("--tx", current.tx.toFixed(3));
-  stack.value.style.setProperty("--ty", current.ty.toFixed(3));
+  stack.value?.style.setProperty("--tx", current.tx.toFixed(3));
+  stack.value?.style.setProperty("--ty", current.ty.toFixed(3));
   frame = requestAnimationFrame(tick);
 }
 
@@ -123,8 +160,9 @@ function onPointerMove(e) {
   const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
   const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
   hovering = true;
-  // The edge nearest the cursor comes toward the viewer.
-  target = { tx: -ny * MAX_TILT, ty: -nx * MAX_TILT };
+  // The edge nearest the cursor comes toward the viewer. rotateX(+a) tips the bottom edge forward,
+  // so a cursor below centre (ny > 0) needs a positive tx.
+  target = { tx: ny * MAX_TILT, ty: -nx * MAX_TILT };
 }
 
 function onPointerLeave() {
@@ -141,7 +179,11 @@ function onPointerLeave() {
   --ty: 0;
   transform-style: preserve-3d;
   transform: rotateX(calc(var(--tx) * 1deg)) rotateY(calc(var(--ty) * 1deg));
-  will-change: transform;
+}
+@media not (prefers-reduced-motion: reduce) {
+  .stack {
+    will-change: transform;
+  }
 }
 .layer {
   transform: translateZ(var(--z, 0px));
@@ -156,6 +198,21 @@ function onPointerLeave() {
   --z: 50px;
   transform: translateZ(var(--z)) scale(0.9583);
   transform-origin: 50% 52.7%;
+  /* Clip to the disc's silhouette (circle) plus everything above its centre line, so the head
+     still rises above the rim while the shoulders stay inside it. Percentages are the disc
+     circle expressed in this image's own box. */
+  mask-image:
+    radial-gradient(ellipse 48.08% 46.4% at 50% 52.7%, #000 99.5%, transparent 100%),
+    linear-gradient(#000 0 0);
+  mask-size: 100% 100%, 100% 52.7%;
+  mask-repeat: no-repeat;
+  mask-composite: add;
+  -webkit-mask-image:
+    radial-gradient(ellipse 48.08% 46.4% at 50% 52.7%, #000 99.5%, transparent 100%),
+    linear-gradient(#000 0 0);
+  -webkit-mask-size: 100% 100%, 100% 52.7%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-composite: source-over;
 }
 
 /* Chips: depth plus a parallax translate that grows with --p, so they swing further than the disc. */
@@ -163,21 +220,25 @@ function onPointerLeave() {
   transform: translateZ(var(--z)) translate(calc(var(--ty) * var(--p) * 1px), calc(var(--tx) * var(--p) * -1px));
 }
 
-/* Sheen: a soft diagonal highlight that slides against the tilt. */
+/* Sheen: a soft diagonal highlight sitting in front of the portrait, moved by transform only. */
 .sheen {
-  pointer-events: none;
-  background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.22) 50%, transparent 62%);
-  background-size: 220% 220%;
-  background-position: calc(50% - var(--ty) * 3%) calc(50% + var(--tx) * 3%);
-  opacity: 0.7;
-  mix-blend-mode: soft-light;
+  --z: 60px;
+  opacity: 0.55;
+}
+.sheen::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.16) 50%, transparent 60%);
+  transform: translate(calc(var(--ty) * -1.2%), calc(var(--tx) * 1.2%));
+  will-change: transform;
 }
 :root:not(.dark) .sheen {
-  opacity: 0.4;
+  opacity: 0.35;
 }
 
-/* The cutout is 415x430 with a circular bottom edge. Scaled slightly wider than the disc and
-   nudged down, its arc sits just inside the rim while the head clears the top. */
+/* The 415x430 cutout, a little wider than the disc and nudged down so it fills the orb; the mask
+   on .figure trims the shoulders back to the disc silhouette while the head clears the rim. */
 .portrait-img {
   width: 104%;
   left: -2%;
