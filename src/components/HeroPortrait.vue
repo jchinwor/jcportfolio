@@ -1,7 +1,7 @@
 <template>
   <!-- Portrait rising out of an aurora orb. Every layer sits at its own depth in a perspective
        stack; the script tilts the stack toward the cursor and drifts it when idle. -->
-  <div ref="root" class="flex justify-center pt-10 lg:col-span-5 lg:justify-end lg:pt-0">
+  <div ref="root" class="flex justify-center pt-10 lg:col-span-5 lg:justify-end lg:pr-6 lg:pt-0">
     <div class="stage">
       <div ref="stack" class="stack relative w-64 sm:w-72 lg:w-80 xl:w-[22rem]">
         <!-- Glow -->
@@ -191,26 +191,29 @@ function onPointerLeave() {
 .glow { --z: -80px; }
 .ring { --z: -40px; }
 .disc { --z: 0px; }
-/* The portrait stands 50px in front of the disc. Perspective magnifies it by 1200/1150,
-   so it is scaled back around the stack's centre (50% across, 52.7% down in its own box,
-   given the 104% width, -2% left, -1% bottom offsets and the 415x430 image) to line up at rest. */
+/* The portrait stands 50px in front of the disc. Perspective magnifies it by 1200/1150, so it is
+   scaled back around the disc's centre to line up at rest. Where that centre falls in the image's
+   own box, for the 408x438 cutout at 104% width / -2% left / -1% bottom over a disc of width W:
+   the box is 1.04W wide and 1.04W * 438/408 = 1.11647W tall with its top at -0.10647W, so the
+   disc centre sits at 50% across and 0.60647/1.11647 = 54.3% down, with the disc's radius
+   reading as 48.08% of the box width and 44.78% of its height. */
 .figure {
   --z: 50px;
   transform: translateZ(var(--z)) scale(0.9583);
-  transform-origin: 50% 52.7%;
+  transform-origin: 50% 54.3%;
   /* Clip to the disc's silhouette (circle) plus everything above its centre line, so the head
      still rises above the rim while the shoulders stay inside it. Percentages are the disc
      circle expressed in this image's own box. */
   mask-image:
-    radial-gradient(ellipse 48.08% 46.4% at 50% 52.7%, #000 99.5%, transparent 100%),
+    radial-gradient(ellipse 48.08% 44.78% at 50% 54.3%, #000 99.5%, transparent 100%),
     linear-gradient(#000 0 0);
-  mask-size: 100% 100%, 100% 52.7%;
+  mask-size: 100% 100%, 100% 54.3%;
   mask-repeat: no-repeat;
   mask-composite: add;
   -webkit-mask-image:
-    radial-gradient(ellipse 48.08% 46.4% at 50% 52.7%, #000 99.5%, transparent 100%),
+    radial-gradient(ellipse 48.08% 44.78% at 50% 54.3%, #000 99.5%, transparent 100%),
     linear-gradient(#000 0 0);
-  -webkit-mask-size: 100% 100%, 100% 52.7%;
+  -webkit-mask-size: 100% 100%, 100% 54.3%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-composite: source-over;
 }
@@ -237,7 +240,7 @@ function onPointerLeave() {
   opacity: 0.35;
 }
 
-/* The 415x430 cutout, a little wider than the disc and nudged down so it fills the orb; the mask
+/* The 408x438 cutout, a little wider than the disc and nudged down so it fills the orb; the mask
    on .figure trims the shoulders back to the disc silhouette while the head clears the rim. */
 .portrait-img {
   width: 104%;
