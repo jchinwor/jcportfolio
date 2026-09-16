@@ -1,54 +1,49 @@
 <template>
   <!-- Portrait rising out of an aurora orb. Every layer sits at its own depth in a perspective
        stack; the script tilts the stack toward the cursor and drifts it when idle. -->
-  <div ref="root" class="stage flex justify-center pt-10 lg:col-span-5 lg:justify-end lg:pt-0">
-    <div ref="stack" class="stack portrait relative w-64 sm:w-72 lg:w-80 xl:w-[22rem]">
-      <!-- Glow -->
-      <div class="layer glow absolute -inset-12 rounded-full bg-accent/20 blur-3xl dark:bg-accent/15" aria-hidden="true"></div>
+  <div ref="root" class="flex justify-center pt-10 lg:col-span-5 lg:justify-end lg:pt-0">
+    <div class="stage">
+      <div ref="stack" class="stack portrait relative w-64 sm:w-72 lg:w-80 xl:w-[22rem]">
+        <!-- Glow -->
+        <div class="layer glow absolute -inset-12 rounded-full bg-accent/20 blur-3xl dark:bg-accent/15" aria-hidden="true"></div>
 
-      <!-- Outer hairline ring -->
-      <div class="layer ring absolute -inset-5 rounded-full border border-edge sm:-inset-7" aria-hidden="true"></div>
+        <!-- Outer hairline ring -->
+        <div class="layer ring absolute -inset-5 rounded-full border border-edge sm:-inset-7" aria-hidden="true"></div>
 
-      <!-- Disc: dark card with an aurora stroke, violet pooling at the base -->
-      <div class="layer disc gradient-stroke relative aspect-square overflow-hidden rounded-full bg-card">
-        <div
-          class="absolute inset-0 rounded-full"
-          style="background: radial-gradient(circle at 50% 115%, color-mix(in oklab, var(--accent-2) 85%, transparent), color-mix(in oklab, var(--accent) 35%, transparent) 42%, transparent 68%)"
-          aria-hidden="true"
-        ></div>
-        <!-- Body: clipped to the disc -->
+        <!-- Disc: dark card with an aurora stroke, violet pooling at the base -->
+        <div class="layer disc gradient-stroke relative aspect-square overflow-hidden rounded-full bg-card">
+          <div
+            class="absolute inset-0 rounded-full"
+            style="background: radial-gradient(circle at 50% 115%, color-mix(in oklab, var(--accent-2) 85%, transparent), color-mix(in oklab, var(--accent) 35%, transparent) 42%, transparent 68%)"
+            aria-hidden="true"
+          ></div>
+          <!-- Sheen: slides opposite to the tilt -->
+          <div class="sheen absolute inset-0 rounded-full" aria-hidden="true"></div>
+        </div>
+
+        <!-- Portrait: one cutout with a rounded bottom edge, standing in front of the disc -->
         <img
           src="@/assets/jenkinsv5.png"
           alt="Portrait of Jenkins Chinwor"
           fetchpriority="high"
-          class="portrait-img absolute inset-x-0 bottom-0 w-full"
+          class="layer figure portrait-img pointer-events-none absolute inset-x-0 bottom-0 w-full"
         />
-        <!-- Sheen: slides opposite to the tilt -->
-        <div class="sheen absolute inset-0 rounded-full" aria-hidden="true"></div>
-      </div>
 
-      <!-- Head: the same image, unclipped, showing only its upper part so it rises above the rim -->
-      <img
-        src="@/assets/jenkinsv5.png"
-        alt=""
-        aria-hidden="true"
-        class="layer head portrait-img portrait-head pointer-events-none absolute inset-x-0 bottom-0 w-full"
-      />
-
-      <!-- Floating tool chips: the orbit wrapper carries depth and parallax, the chip keeps its float -->
-      <div class="orbit absolute -left-3 top-6 sm:-left-6" style="--z: 90px; --p: 1.6">
-        <div class="chip" style="--delay: 0s">
-          <img src="/logos/vuejs.png" alt="Vue.js" class="h-6 w-6 object-contain" />
+        <!-- Floating tool chips: the orbit wrapper carries depth and parallax, the chip keeps its float -->
+        <div class="orbit absolute -left-3 top-6 sm:-left-6" style="--z: 90px; --p: 0.8">
+          <div class="chip" style="--delay: 0s">
+            <img src="/logos/vuejs.png" alt="Vue.js" class="h-6 w-6 object-contain" />
+          </div>
         </div>
-      </div>
-      <div class="orbit absolute -right-2 top-1/3 sm:-right-5" style="--z: 70px; --p: 1.2">
-        <div class="chip" style="--delay: -2s">
-          <img src="/logos/figma.png" alt="Figma" class="h-6 w-6 object-contain" />
+        <div class="orbit absolute -right-2 top-1/3 sm:-right-5" style="--z: 70px; --p: 0.6">
+          <div class="chip" style="--delay: -2s">
+            <img src="/logos/figma.png" alt="Figma" class="h-6 w-6 object-contain" />
+          </div>
         </div>
-      </div>
-      <div class="orbit absolute -bottom-1 left-8 sm:left-6" style="--z: 110px; --p: 2">
-        <div class="chip" style="--delay: -4s">
-          <img src="/logos/tailwindcss.png" alt="Tailwind CSS" class="h-6 w-6 object-contain" />
+        <div class="orbit absolute -bottom-1 left-8 sm:left-6" style="--z: 110px; --p: 1">
+          <div class="chip" style="--delay: -4s">
+            <img src="/logos/tailwindcss.png" alt="Tailwind CSS" class="h-6 w-6 object-contain" />
+          </div>
         </div>
       </div>
     </div>
@@ -154,7 +149,14 @@ function onPointerLeave() {
 .glow { --z: -80px; }
 .ring { --z: -40px; }
 .disc { --z: 0px; }
-.head { --z: 50px; }
+/* The portrait stands 50px in front of the disc. Perspective magnifies it by 1200/1150,
+   so it is scaled back around the stack's centre (50% across, 52.7% down in its own box,
+   given the 104% width, -2% left, -1% bottom offsets and the 415x430 image) to line up at rest. */
+.figure {
+  --z: 50px;
+  transform: translateZ(var(--z)) scale(0.9583);
+  transform-origin: 50% 52.7%;
+}
 
 /* Chips: depth plus a parallax translate that grows with --p, so they swing further than the disc. */
 .orbit {
@@ -181,10 +183,6 @@ function onPointerLeave() {
   left: -2%;
   bottom: -1%;
   max-width: none;
-}
-/* Only the upper part of the duplicate is painted, so it never reaches the disc's clipped edge. */
-.portrait-head {
-  clip-path: inset(0 0 52% 0);
 }
 
 .chip {
