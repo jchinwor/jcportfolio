@@ -1,3 +1,5 @@
+> Superseded on 2026-09-16 by `2026-09-16-parallax-portrait-design.md`. The badge shipped to a branch, was reviewed in the browser, and was rejected. Kept for the record.
+
 # 3D JC logo badge for the hero
 
 Date: 2026-09-16

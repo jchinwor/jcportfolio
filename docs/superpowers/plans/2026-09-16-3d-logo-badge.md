@@ -1,3 +1,5 @@
+> Superseded on 2026-09-16 by `2026-09-16-parallax-portrait.md`. Tasks 1-4 were executed and then reverted; see git history on `feat/3d-logo-badge`.
+
 # 3D JC Logo Badge Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
