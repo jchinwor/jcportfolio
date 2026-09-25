@@ -7,7 +7,8 @@
       :is="type === 'textarea' ? 'textarea' : 'input'"
       :id="id"
       :name="id"
-      v-model="inputValue"
+      :value="modelValue"
+      @input="emit('update:modelValue', $event.target.value)"
       :type="type === 'textarea' ? undefined : type"
       :rows="type === 'textarea' ? rows : undefined"
       :placeholder="placeholder"
@@ -21,9 +22,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-
-const props = defineProps({
+// v-model on <component :is> compiles to a component binding (modelValue/onUpdate:modelValue),
+// which a native input/textarea never emits, so bind value and input explicitly.
+defineProps({
   id: { type: String, required: true },
   label: { type: String, required: true },
   type: { type: String, required: true },
@@ -34,9 +35,4 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:modelValue"]);
-
-const inputValue = computed({
-  get: () => props.modelValue,
-  set: (value) => emit("update:modelValue", value),
-});
 </script>

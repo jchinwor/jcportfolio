@@ -156,7 +156,7 @@ const handleSubmit = async () => {
     const response = await SendEmail(requestBody);
     if (response.status == 200) {
       successMessageSent.value = true;
-      successMessage.value = response.data.message;
+      successMessage.value = response.data?.message || "Thanks! Your message has been sent.";
       setTimeout(() => { successMessage.value = ""; }, 10000);
 
       form.value = { email: "", subject: "", message: "" };
